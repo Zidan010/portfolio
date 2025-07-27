@@ -443,6 +443,9 @@ Now, respond to the user's query: "${userMessage}"
 
     try {
         // Make API call to Groq
+        // Make API call to Groq
+
+
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
