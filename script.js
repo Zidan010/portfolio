@@ -1,4 +1,3 @@
-// Navigation functionality
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
+                const offsetTop = targetSection.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
@@ -131,45 +130,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Chatbot toggle function
-function toggleChatbot() {
+// Minimize chatbot function
+function minimizeChatbot() {
     const chatbot = document.getElementById('chatbot');
-    chatbot.classList.toggle('open');
+    const toggleBtn = document.getElementById('toggle-btn');
+    if (!chatbot || !toggleBtn) {
+        console.error('Chatbot or toggle button not found!');
+        return;
+    }
     
-    // Focus on input when opening
-    if (chatbot.classList.contains('open')) {
+    chatbot.classList.toggle('minimized');
+    if (chatbot.classList.contains('minimized')) {
+        toggleBtn.innerHTML = '&#9650;'; // Up arrow (^) when minimized
+    } else {
+        toggleBtn.innerHTML = '&#9660;'; // Down arrow (v) when expanded
         setTimeout(() => {
-            document.getElementById('userInput').focus();
+            const userInput = document.getElementById('userInput');
+            if (userInput) userInput.focus();
         }, 100);
     }
 }
-
-// Close chatbot when clicking outside
-document.addEventListener('click', function(e) {
-    const chatbot = document.getElementById('chatbot');
-    const chatButton = document.querySelector('[onclick="toggleChatbot()"]');
-    
-    if (chatbot.classList.contains('open') && 
-        !chatbot.contains(e.target) && 
-        !chatButton.contains(e.target)) {
-        chatbot.classList.remove('open');
-    }
-});
-
-// Utility functions for smooth animations
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Performance optimization for scroll events
-const optimizedScroll = debounce(function() {
-    // Any scroll-based animations can be added here
-}, 10);
