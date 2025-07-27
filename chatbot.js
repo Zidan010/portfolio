@@ -426,23 +426,6 @@ function removeTypingIndicator() {
     }
 }
 
-async function generateResponse(userMessage) {
-    if (!userMessage) return "Please enter a message.";
-
-    // Prepare resume data as context
-    const resumeContext = JSON.stringify(resumeData, null, 2);
-
-    // System prompt for Groq API
-    const systemPrompt = `
-You are an AI assistant representing Sadir Ahmed Zidan, a Machine Learning Engineer. Your role is to provide accurate and professional responses about Sadir's experience, skills, projects, education, and contact information based on the provided resume data. Respond in a friendly, professional tone, and ensure answers are concise and relevant to the user's query. If the query is unrelated to the resume, provide a general helpful response and gently steer the conversation back to Sadir's background if appropriate. Here is the resume data:
-
-${resumeContext}
-
-Now, respond to the user's query: "${userMessage}"
-    `;
-
-}
-
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     if (!userInput) {
