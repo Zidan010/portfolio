@@ -442,12 +442,11 @@ Now, respond to the user's query: "${userMessage}"
     `;
 
     try {
-        // Make API call to Groq
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer .' // Replace with your actual API key
+                'Authorization': '' 
             },
             body: JSON.stringify({
                 model: 'llama3-70b-8192',
