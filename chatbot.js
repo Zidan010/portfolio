@@ -446,7 +446,6 @@ Now, respond to the user's query: "${userMessage}"
     //         method: 'POST',
     //         headers: {
     //             'Content-Type': 'application/json',
-    //             'Authorization': '' 
     //         },
     //         body: JSON.stringify({
     //             model: 'llama3-70b-8192',
