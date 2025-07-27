@@ -441,34 +441,34 @@ ${resumeContext}
 Now, respond to the user's query: "${userMessage}"
     `;
 
-    try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': '' 
-            },
-            body: JSON.stringify({
-                model: 'llama3-70b-8192',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userMessage }
-                ],
-                max_tokens: 500,
-                temperature: 0.7
-            })
-        });
+    // try {
+    //     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': '' 
+    //         },
+    //         body: JSON.stringify({
+    //             model: 'llama3-70b-8192',
+    //             messages: [
+    //                 { role: 'system', content: systemPrompt },
+    //                 { role: 'user', content: userMessage }
+    //             ],
+    //             max_tokens: 500,
+    //             temperature: 0.7
+    //         })
+    //     });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //         throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
 
-        const data = await response.json();
-        return data.choices[0].message.content.trim();
-    } catch (error) {
-        console.error('Error calling Groq API:', error);
-        return "Sorry, I encountered an issue while processing your request. Please try again or ask about Sadir's experience, skills, or projects!";
-    }
+    //     const data = await response.json();
+    //     return data.choices[0].message.content.trim();
+    // } catch (error) {
+    //     console.error('Error calling Groq API:', error);
+    //     return "Sorry, I encountered an issue while processing your request. Please try again or ask about Sadir's experience, skills, or projects!";
+    // }
 }
 
 async function sendMessage() {
