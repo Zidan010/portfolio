@@ -447,7 +447,7 @@ Now, respond to the user's query: "${userMessage}"
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer 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' // Replace with your actual API key
+                'Authorization': 'Bearer .' // Replace with your actual API key
             },
             body: JSON.stringify({
                 model: 'llama3-70b-8192',
