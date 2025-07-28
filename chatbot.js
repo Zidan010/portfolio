@@ -508,5 +508,5 @@ function handleKeyPress(event) {
 
 // Initialize chatbot with welcome message
 document.addEventListener('DOMContentLoaded', () => {
-    addMessage("Hi! I'm an AI assistant that knows about Sadir's background and experience. Ask me anything about his skills, projects, or career!");
+    addMessage("Hi! I'm an AI assistant of Sadir Ahmed Zidan. Ask me anything about his skills, projects, or career!");
 });
