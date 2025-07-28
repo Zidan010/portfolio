@@ -695,7 +695,7 @@ function addTypingIndicator() {
                 margin-top: 10px;
             }
             .bot-response a {
-                color: #007bff;
+                color:rgb(255, 255, 255);
                 text-decoration: none;
             }
             .bot-response a:hover {
