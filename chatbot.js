@@ -583,32 +583,32 @@ const resumeData = {
         {
             name: "Multilingual RAG System",
             description: "A multilingual RAG system for English and Bengali that retrieves information from PDFs and generates answers using LangChain, FAISS, and an LLM. It features a FastAPI-based REST API, memory modules, and an evaluation framework for quality assessment.",
-            github: "github.com/zidan010/multilingual-rag-bangla",
+            github: "https://github.com/zidan010/multilingual-rag-bangla",
             technologies: ["Python", "OpenCV", "Machine Learning","OCR","FastAPI","Groq","Faiss","Langchain","RAG"]
         },
 
         {
             name: "Face Mask Detection",
             description: "A system to detect facial masks using a cascade classifier. Used a large dataset that varies with different types of poses with masks worn by humans. The model got good accuracy after implementation.",
-            github: "github.com/zidan010/MaskDetection",
+            github: "https://github.com/zidan010/MaskDetection",
             technologies: ["Python", "OpenCV", "Machine Learning"]
         },
         {
             name: "Drowsiness Detection",
             description: "A real-time system using machine learning algorithms and image processing to detect driver drowsiness. It can continuously monitor the driver while they are driving and provide immediate feedback or alerts.",
-            github: "github.com/zidan010/DrowsinessDetection",
+            github: "https://github.com/zidan010/DrowsinessDetection",
             technologies: ["Python", "Computer Vision", "Real-time Processing"]
         },
         {
             name: "Data Analysis & Prediction",
             description: "Analyzed a sleep health lifestyle dataset and applied algorithms to predict health levels as part of a data science project.",
-            github: "github.com/zidan010/DataAnalysis",
+            github: "https://github.com/zidan010/DataAnalysis",
             technologies: ["Python", "Data Analysis", "Pandas"]
         },
         {
             name: "Predicting Mental Health Condition",
             description: "Comparisons between different ML algorithms for predicting mental health condition, using online data.",
-            github: "github.com/zidan010/MachineLearning",
+            github: "https://github.com/zidan010/MachineLearning",
             technologies: ["Python", "Machine Learning", "Data Science"]
         }
     ]
