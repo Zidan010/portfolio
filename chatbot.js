@@ -829,7 +829,7 @@ function handleKeyPress(event) {
 document.addEventListener('DOMContentLoaded', () => {
     addMessage({
         title: "Welcome",
-        content: "Hi! I'm an AI assistant for Sadir Ahmed Zidan. Ask me anything about his skills, projects, or career!",
+        content: "Hi! I'm Zidan's personal AI Assistant. Ask me anything about his skills, projects, or career!",
         details: [],
         links: []
     });
