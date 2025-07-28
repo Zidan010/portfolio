@@ -581,6 +581,13 @@ const resumeData = {
     },
     projects: [
         {
+            name: "Multilingual RAG System",
+            description: "A multilingual RAG system for English and Bengali that retrieves information from PDFs and generates answers using LangChain, FAISS, and an LLM. It features a FastAPI-based REST API, memory modules, and an evaluation framework for quality assessment.",
+            github: "github.com/zidan010/multilingual-rag-bangla",
+            technologies: ["Python", "OpenCV", "Machine Learning","OCR","FastAPI","Groq","Faiss","Langchain","RAG"]
+        },
+
+        {
             name: "Face Mask Detection",
             description: "A system to detect facial masks using a cascade classifier. Used a large dataset that varies with different types of poses with masks worn by humans. The model got good accuracy after implementation.",
             github: "github.com/zidan010/MaskDetection",
