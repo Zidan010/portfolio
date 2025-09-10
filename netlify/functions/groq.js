@@ -19,18 +19,21 @@ User question: ${message}
 Assistant answer:
 `;
 
-    const response = await fetch("https://api.groq.com/v1/llama3/completions", {
-      method: "POST",
-      headers: {
+    const response = await fetch("https://api.groq.com/v1/llama3-70b/chat/completions", {
+    method: "POST",
+    headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatiles",
-        prompt: prompt,
-        max_output_tokens: 500,
-        temperature: 0.7
-      }),
+    },
+    body: JSON.stringify({
+        model: "llama3-70b",
+        messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+        ],
+        temperature: 0.7,
+        max_output_tokens: 500
+    }),
     });
 
     if (!response.ok) {
