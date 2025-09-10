@@ -334,3 +334,44 @@ Now, respond to the user's query: "${userMessage}"
         };
     }
 }
+const chatMessages = document.getElementById("chatMessages");
+const userInput = document.getElementById("userInput");
+
+function appendMessage(sender, content) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender === "user" ? "user-message" : "bot-message");
+    msg.textContent = content;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Send button click
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    // User message
+    appendMessage("user", message);
+    userInput.value = "";
+
+    // Bot thinking placeholder
+    const thinkingMsg = document.createElement("div");
+    thinkingMsg.classList.add("message", "bot-message");
+    thinkingMsg.textContent = "Thinking...";
+    chatMessages.appendChild(thinkingMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Get AI response
+    const response = await generateResponse(message);
+
+    // Replace placeholder with AI response
+    thinkingMsg.textContent = response.content || "Sorry, I couldn’t generate a response.";
+}
+
+// Enter key press
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
+}
