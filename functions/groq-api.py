@@ -2,7 +2,6 @@ import json
 import os
 import requests
 from http import HTTPStatus
-# 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
 def handler(event, context):
     try:
         # Parse the incoming request body
