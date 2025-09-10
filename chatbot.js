@@ -277,63 +277,30 @@
 
 
 async function generateResponse(userMessage) {
-    if (!userMessage) return { content: "Please enter a message." };
+  if (!userMessage) return { content: "Please enter a message." };
 
-    const resumeContext = JSON.stringify(resumeData, null, 2);
+  const resumeContext = JSON.stringify(resumeData, null, 2);
+  const systemPrompt = `... your prompt ... ${resumeContext} Now respond: "${userMessage}"`;
 
-    const systemPrompt = `
-You are an AI assistant representing Sadir Ahmed Zidan, a Machine Learning Engineer. Your role is to provide accurate and professional responses about Sadir's experience, skills, projects, education, and contact information based on the provided resume data. Respond in a friendly, professional tone, and ensure answers are concise and relevant to the user's query. If the query is unrelated to the resume, provide a general helpful response and gently steer the conversation back to Sadir's background if appropriate. 
+  try {
+    const response = await fetch("/.netlify/functions/groq", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage, systemPrompt }),
+    });
 
-**Response Format**: Always return your response in JSON format with the following structure:
-{
-  "title": "Response title or category (e.g., Skills, Experience, Projects)",
-  "content": "Main response text",
-  "details": ["Optional list of bullet points for additional details"],
-  "links": [{"text": "Link text", "url": "Link URL"}] // Optional
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+
+    const rawContent = data.choices?.[0]?.message?.content?.trim();
+    try { return JSON.parse(rawContent); } catch { return { content: rawContent }; }
+
+  } catch (err) {
+    console.error(err);
+    return { content: "Sorry, something went wrong." };
+  }
 }
 
-Here is the resume data:
-
-${resumeContext}
-
-Now, respond to the user's query: "${userMessage}"
-    `;
-
-    try {
-        const response = await fetch("/.netlify/functions/groq", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userMessage, systemPrompt }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const rawContent = data.choices[0].message.content.trim();
-
-        try {
-            return JSON.parse(rawContent);
-        } catch (parseError) {
-            console.error("Error parsing LLM response as JSON:", parseError);
-            return {
-                title: "Error",
-                content: "Sorry, I couldn't process the response properly.",
-                details: [],
-                links: [],
-            };
-        }
-    } catch (error) {
-        console.error("Error calling Groq API:", error);
-        return {
-            title: "Error",
-            content: "Sorry, something went wrong. Please try again later.",
-            details: [],
-            links: [],
-        };
-    }
-}
 const chatMessages = document.getElementById("chatMessages");
 const userInput = document.getElementById("userInput");
 
