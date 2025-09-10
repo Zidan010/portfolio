@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,25 +8,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <!-- <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">Sadir Ahmed Zidan</div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav> -->
 
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-socials">
@@ -58,35 +41,13 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <!-- <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Hi, I'm <span class="gradient-text">Sadir Ahmed Zidan</span>
-                </h1>
-                <p class="hero-subtitle">Machine Learning Engineer</p>
-                <p class="hero-description">
-                    Passionate ML Engineer with 2+ years of experience developing AI models, APIs, and scalable systems. 
-                    Specialized in NLP, LLMs, and computer vision with proven track record of improving efficiency by 40%.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-outline">Get In Touch</a>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
                 <img src="pic.png" alt="Sadir Ahmed Zidan" class="hero-photo">
                 <h1 class="hero-title gradient-text">Sadir Ahmed Zidan</h1>
                 <h2 class="hero-subtitle">Machine Learning Engineer</h2>
-                <!-- <p class="hero-description">
-                    Crafting innovative AI solutions with expertise in NLP, computer vision, and scalable systems.
-                </p> -->
+
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">View Projects</a>
                     <a href="#contact" class="btn btn-outline">Get in Touch</a>
@@ -95,7 +56,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
             <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
@@ -167,7 +127,6 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
             <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
@@ -284,7 +243,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
@@ -332,7 +290,6 @@
         </div>
     </section>
 
-    <!-- Chatbot -->
     <div id="chatbot" class="chatbot-container minimized">
         <div class="chatbot-header" onclick="minimizeChatbot()">
             <h3><i class="fas fa-robot"></i> Talk to me through AI</h3>
@@ -348,10 +305,320 @@
         <div class="chatbot-input">
             <input type="text" id="userInput" placeholder="Ask about me..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()" class="send-btn">
-                <!-- <i class="fas fa-paper-plane"></i> -->
                 <i class="fas fa-paper-plane"></i>
 
 
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadir Ahmed Zidan - ML Engineer Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-socials">
+                <a href="https://www.facebook.com/sadir.ahmed.zidan" target="_blank" class="social-link" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://linkedin.com/in/sadir-ahmed-zidan" target="_blank" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/zidan010" target="_blank" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://wa.me/01640423606" target="_blank" class="social-link" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <img src="pic.png" alt="Sadir Ahmed Zidan" class="hero-photo">
+                <h1 class="hero-title gradient-text">Sadir Ahmed Zidan</h1>
+                <h2 class="hero-subtitle">Machine Learning Engineer</h2>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        A passionate Machine Learning Engineer based in Dhaka, Bangladesh, with about 2 years of experience 
+                        in developing and deploying custom AI models, APIs, and scalable systems. My expertise spans across 
+                        NLP, LLMs, and computer vision, with a strong focus on delivering impactful, data-driven solutions.
+                    </p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>70%</h3>
+                            <p>Resource Usage Reduction</p>
+                        </div>
+                        <div class="stat">
+                            <h3>40%</h3>
+                            <p>Processing Efficiency Improvement</p>
+                        </div>
+                        <div class="stat">
+                            <h3>2+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="skills">
+                    <h3>Technical Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Programming Languages</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">R</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>AI/ML Frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">TensorFlow</span>
+                                <span class="skill-tag">PyTorch</span>
+                                <span class="skill-tag">Keras</span>
+                                <span class="skill-tag">LangChain</span>
+                                <span class="skill-tag">Hugging Face</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Tools & Platforms</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">Kubernetes</span>
+                                <span class="skill-tag">Fast API</span>
+                                <span class="skill-tag">MLFlow</span>
+                                <span class="skill-tag">GitHub</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Specializations</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">NLP</span>
+                                <span class="skill-tag">Computer Vision</span>
+                                <span class="skill-tag">LLMs</span>
+                                <span class="skill-tag">RAG</span>
+                                <span class="skill-tag">API Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Multilingual RAG System</h3>
+                        <p>A multilingual RAG system for English and Bengali that retrieves information from PDFs and generates answers using LangChain, FAISS, and an LLM. It features a FastAPI-based REST API, memory modules, and an evaluation framework for quality assessment.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">RAG</span>
+                            <span class="tech-tag">Langchain</span>
+                            <span class="tech-tag">Faiss</span>
+                            <span class="tech-tag">Groq</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Sentence Transformers</span>
+                            <span class="tech-tag">OCR</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Zidan010/multilingual-rag-bangla" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"> </i>-Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-mask"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Face Mask Detection</h3>
+                        <p>A system to detect facial masks using cascade classifier with large dataset variations and different poses.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Assignment_1(Mask_Detection)" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"></i>-Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Drowsiness Detection</h3>
+                        <p>Real-time system using ML algorithms and image processing to detect driver drowsiness with immediate feedback.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Computer Vision</span>
+                            <span class="tech-tag">Real-time Processing</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/aab7d4f2d2cd31acc4c341370c22ac9c71a32876/FINAL/Project" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"></i>-Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Data Analysis & Prediction</h3>
+                        <p>Sleep health lifestyle dataset analysis with ML algorithms to predict health levels as part of data science project.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Data Analysis</span>
+                            <span class="tech-tag">Pandas</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Zidan010/Data-Science/tree/4723e0d9961a84ba50c673f51a7c0d70c7f7fc83/Project-2" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"></i>-Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Mental Health Prediction</h3>
+                        <p>Comparison between different ML algorithms for predicting mental health conditions using online data.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">Data Science</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Zidan010/Machine_Learning" target="_blank" class="btn btn-outline btn-sm">
+                                <i class="fab fa-github"></i>-Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+            <p class="contact-description">
+                I'm always open to discussing new opportunities, interesting projects, or just having a chat about AI and ML.
+            </p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <a href="mailto:sazidan559@gmail.com">sazidan559@gmail.com</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Phone</h3>
+                    <a href="tel:01640423606">01640423606</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <h3>LinkedIn</h3>
+                    <a href="https://linkedin.com/in/sadir-ahmed-zidan" target="_blank">Sadir Ahmed Zidan</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Location</h3>
+                    <p>Dhaka, Bangladesh</p>
+                </div>
+            </div>
+            <div class="contact-buttons">
+                <a href="mailto:sazidan559@gmail.com" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Send Email
+                </a>
+                <button class="btn btn-outline" onclick="minimizeChatbot()">
+                    <i class="fas fa-robot"></i> Talk to me through AI
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="chatbot" class="chatbot-container minimized">
+        <div class="chatbot-header" onclick="minimizeChatbot()">
+            <h3><i class="fas fa-robot"></i> Talk to me through AI</h3>
+            <button class="close-btn" id="toggle-btn">&#9650;</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="message bot-message"></div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Ask about me..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
             </button>
         </div>
     </div>
