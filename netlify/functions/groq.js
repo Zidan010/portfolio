@@ -9,31 +9,21 @@ export async function handler(event) {
 
     console.log("Sending request to Groq API...");
 
-    // Prepare prompt for Groq API
-    const prompt = `
-You are an AI assistant. Answer questions concisely based on the following resume data:
-
-${systemPrompt}
-
-User question: ${message}
-Assistant answer:
-`;
-
-    const response = await fetch("https://api.groq.com/v1/llama3-70b/chat/completions", {
-    method: "POST",
-    headers: {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
-    },
-    body: JSON.stringify({
-        model: "llama3-70b",
+      },
+      body: JSON.stringify({
+        model: "llama3-70b-8192",
         messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: message }
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
         ],
         temperature: 0.7,
-        max_output_tokens: 500
-    }),
+        max_tokens: 500  // Note: Use 'max_tokens' for chat completions (not 'max_output_tokens')
+      }),
     });
 
     if (!response.ok) {
@@ -45,9 +35,16 @@ Assistant answer:
     const data = await response.json();
     console.log("Groq API response:", data);
 
+    // Extract the assistant's response from the standard chat completions format
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error("Invalid response format from Groq API");
+    }
+
+    const assistantContent = data.choices[0].message.content;
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ choices: [{ message: { content: data.completion_text } }] })
+      body: JSON.stringify({ choices: [{ message: { content: assistantContent } }] })
     };
 
   } catch (err) {
