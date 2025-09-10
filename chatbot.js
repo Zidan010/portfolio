@@ -387,8 +387,7 @@ function appendMessage(content, sender) {
 async function generateResponse(userMessage) {
   if (!userMessage) return { content: "Please enter a message." };
 
-  const systemPrompt = `You are an AI assistant. Use the following resume data to answer questions:\n${JSON.stringify(resumeData, null, 2)}\nAnswer the user's query concisely.`;
-
+    const systemPrompt = `You are an AI assistant tasked with answering questions based *exclusively* on the following resume data. Do not use external information or make assumptions beyond the provided data. Provide concise and accurate answers based on the resume:\n${JSON.stringify(resumeData, null, 2)}`;
   try {
     const response = await fetch("/.netlify/functions/groq", {
       method: "POST",

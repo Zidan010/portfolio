@@ -21,7 +21,7 @@ export async function handler(event) {
           { role: "system", content: systemPrompt },
           { role: "user", content: message }
         ],
-        temperature: 0.2,
+        temperature: 0.5,
         max_tokens: 500  // Note: Use 'max_tokens' for chat completions (not 'max_output_tokens')
       }),
     });
