@@ -16,12 +16,12 @@ export async function handler(event) {
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: message }
         ],
-        temperature: 0.7,
+        temperature: 0.2,
         max_tokens: 500  // Note: Use 'max_tokens' for chat completions (not 'max_output_tokens')
       }),
     });
