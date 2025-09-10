@@ -373,6 +373,9 @@
 //         }
 //     ]
 // };
+
+
+
 const chatMessages = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 
