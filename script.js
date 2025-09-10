@@ -370,6 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
+
     /* ===================== Navigation and Scrolling ===================== */
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -480,10 +481,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function generateResponse(userMessage) {
-        if (!userMessage) return { content: "Please enter a message." };
+        if (!userMessage) return { content: "<p>Please enter a message.</p>" };
 
         const systemPrompt = `
-You are ZidanBot, the personal AI assistant for Sadir Ahmed Zidan, a Machine Learning Engineer. Your role is to provide accurate and concise answers based *exclusively* on Sadir's resume data below. Do not use external information or make assumptions. Summarize relevant sections (e.g., experience, skills, projects) to answer the query clearly. Format responses with HTML for readability, using <strong> for headings, <ul><li> for lists, and <p> for paragraphs. If the query is unrelated to the resume, politely redirect the user to ask about Sadir's experience, skills, projects, or contact details.
+You are personal AI assistant for Sadir Ahmed Zidan, a Machine Learning Engineer. Your role is to provide accurate, concise, and professional answers based *exclusively* on Zidan's resume data below. Do not use external information or make assumptions. Summarize only the relevant sections (e.g., experience, skills, projects, contact details) to answer the query. Format responses with HTML for readability, using <p> for paragraphs, <strong> for headings, and <ul><li> for lists. Ensure content is displayed in a single column (row-wise). If the query is unrelated to the resume, politely redirect the user to ask about Zidan's experience, skills, projects, or contact details. Start the first response with a brief introduction: "Hello! I'm Zidan's personal AI assistant."
 
 Resume data:
 ${JSON.stringify(resumeData, null, 2)}
@@ -498,11 +499,11 @@ ${JSON.stringify(resumeData, null, 2)}
 
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            const content = data.choices?.[0]?.message?.content?.trim() || "No response from API.";
+            const content = data.choices?.[0]?.message?.content?.trim() || "<p>No response from API.</p>";
             return { content };
         } catch (err) {
             console.error("Chatbot error:", err);
-            return { content: "<p>Sorry, something went wrong. Please try again or ask about Sadir's experience, skills, or projects.</p>" };
+            return { content: "<p>Sorry, something went wrong. Please try again or ask about Zidan's experience, skills, or projects.</p>" };
         }
     }
 
