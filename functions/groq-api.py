@@ -2,7 +2,23 @@ import json
 import os
 import requests
 from http import HTTPStatus
+
 def handler(event, context):
+    # Set CORS headers
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
+    # Handle preflight OPTIONS request
+    if event['httpMethod'] == 'OPTIONS':
+        return {
+            'statusCode': HTTPStatus.OK,
+            'headers': headers,
+            'body': json.dumps({'message': 'CORS preflight'})
+        }
+
     try:
         # Parse the incoming request body
         body = json.loads(event['body'])
@@ -12,10 +28,11 @@ def handler(event, context):
         if not user_message:
             return {
                 'statusCode': HTTPStatus.BAD_REQUEST,
+                'headers': headers,
                 'body': json.dumps({
                     'title': 'Error',
                     'content': 'Please enter a message.',
-                    'details': [],
+                    'details': ['No user message provided in request body.'],
                     'links': []
                 })
             }
@@ -25,10 +42,11 @@ def handler(event, context):
         if not api_key:
             return {
                 'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+                'headers': headers,
                 'body': json.dumps({
                     'title': 'Error',
                     'content': 'API key configuration error. Please contact the administrator.',
-                    'details': [],
+                    'details': ['GROQ_API_KEY environment variable is not set.'],
                     'links': []
                 })
             }
@@ -53,51 +71,79 @@ Now, respond to the user's query: "{user_message}"
         """
 
         # Make the request to Groq API
-        response = requests.post(
-            'https://api.groq.com/openai/v1/chat/completions',
-            headers={
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {api_key}'
-            },
-            json={
-                'model': 'llama3-70b-8192',
-                'messages': [
-                    {'role': 'system', 'content': system_prompt},
-                    {'role': 'user', 'content': user_message}
-                ],
-                'max_tokens': 500,
-                'temperature': 0.7
-            }
-        )
-
-        if response.status_code != 200:
+        try:
+            response = requests.post(
+                'https://api.groq.com/openai/v1/chat/completions',
+                headers={
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {api_key}'
+                },
+                json={
+                    'model': 'llama3-70b-8192',
+                    'messages': [
+                        {'role': 'system', 'content': system_prompt},
+                        {'role': 'user', 'content': user_message}
+                    ],
+                    'max_tokens': 500,
+                    'temperature': 0.7
+                },
+                timeout=10
+            )
+        except requests.exceptions.RequestException as req_error:
             return {
                 'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+                'headers': headers,
                 'body': json.dumps({
                     'title': 'Error',
-                    'content': f'HTTP error! status: {response.status_code}',
-                    'details': [],
+                    'content': 'Failed to connect to the Groq API.',
+                    'details': [f'Request error: {str(req_error)}'],
                     'links': []
                 })
             }
 
-        data = response.json()
-        raw_content = data['choices'][0]['message']['content'].strip()
+        if response.status_code != 200:
+            return {
+                'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+                'headers': headers,
+                'body': json.dumps({
+                    'title': 'Error',
+                    'content': f'HTTP error from Groq API! status: {response.status_code}',
+                    'details': [f'Response text: {response.text[:200]}'],
+                    'links': []
+                })
+            }
+
+        try:
+            data = response.json()
+            raw_content = data['choices'][0]['message']['content'].strip()
+        except (KeyError, IndexError) as parse_error:
+            return {
+                'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+                'headers': headers,
+                'body': json.dumps({
+                    'title': 'Error',
+                    'content': 'Failed to parse Groq API response.',
+                    'details': [f'Parse error: {str(parse_error)}', f'Response: {response.text[:200]}'],
+                    'links': []
+                })
+            }
 
         # Parse the response as JSON
         try:
             structured_response = json.loads(raw_content)
             return {
                 'statusCode': HTTPStatus.OK,
+                'headers': headers,
                 'body': json.dumps(structured_response)
             }
         except json.JSONDecodeError as parse_error:
             return {
                 'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+                'headers': headers,
                 'body': json.dumps({
                     'title': 'Error',
                     'content': 'Sorry, I couldn\'t process the response properly. Please try again or ask about Sadir\'s experience, skills, or projects!',
-                    'details': [],
+                    'details': [f'JSON decode error: {str(parse_error)}', f'Raw content: {raw_content[:200]}'],
                     'links': []
                 })
             }
@@ -105,10 +151,11 @@ Now, respond to the user's query: "{user_message}"
     except Exception as error:
         return {
             'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
+            'headers': headers,
             'body': json.dumps({
                 'title': 'Error',
                 'content': 'Sorry, I encountered an issue while processing your request. Please try again or ask about Sadir\'s experience, skills, or projects!',
-                'details': [str(error)],
+                'details': [f'Unexpected error: {str(error)}'],
                 'links': []
             })
         }
