@@ -327,13 +327,70 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<!-- <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sadir Ahmed Zidan - ML Engineer Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head> -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Optimized Title & Description -->
+    <title>Sadir Ahmed Zidan | Machine Learning Engineer Portfolio</title>
+    <meta name="description" content="Portfolio of Sadir Ahmed Zidan, a Machine Learning Engineer based in Dhaka, Bangladesh. Specializing in NLP, LLMs, RAG, and Computer Vision. Explore projects, experience, and contact details.">
+    <meta name="keywords" content="Sadir Ahmed Zidan, Ahmed Zidan, Zidan, Machine Learning Engineer, AI Engineer, NLP, RAG, Computer Vision, LLMs, Portfolio, Dhaka Bangladesh">
+    <meta name="author" content="Sadir Ahmed Zidan">
+
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="Sadir Ahmed Zidan | Machine Learning Engineer">
+    <meta property="og:description" content="Explore projects and experience of Machine Learning Engineer Sadir Ahmed Zidan.">
+    <meta property="og:image" content="https://ahmedzidan.netlify.app/Zidan.png">
+    <meta property="og:url" content="https://ahmedzidan.netlify.app">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sadir Ahmed Zidan | Machine Learning Engineer">
+    <meta name="twitter:description" content="Portfolio of ML Engineer specializing in NLP, LLMs, AI APIs, and Computer Vision.">
+    <meta name="twitter:image" content="https://ahmedzidan.netlify.app/Zidan.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ahmedzidan.netlify.app">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="Zidan.png">
+
+    <!-- Styles & Icons -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Schema.org Person Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sadir Ahmed Zidan",
+      "jobTitle": "Machine Learning Engineer",
+      "url": "https://ahmedzidan.netlify.app",
+      "image": "https://ahmedzidan.netlify.app/Zidan.png",
+      "sameAs": [
+        "https://linkedin.com/in/sadir-ahmed-zidan",
+        "https://github.com/zidan010",
+        "https://www.facebook.com/sadir.ahmed.zidan"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dhaka",
+        "addressCountry": "Bangladesh"
+      }
+    }
+    </script>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -354,6 +411,7 @@
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -368,7 +426,7 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <img src="lll.png" alt="Sadir Ahmed Zidan" class="hero-photo">
+                <img src="Zidan.png" alt="Sadir Ahmed Zidan" class="hero-photo">
                 <h1 class="hero-title gradient-text">Sadir Ahmed Zidan</h1>
                 <h2 class="hero-subtitle">Machine Learning Engineer</h2>
                 <div class="hero-buttons">
@@ -667,7 +725,7 @@
             <div class="message bot-message"><p>Hi! I'm Sadir Ahmed Zidan's personal AI assistant. Ask me about Zidan's experience, skills, projects, or contact details!</p></div>
         </div>
         <div class="chatbot-input">
-            <input type="text" id="userInput" placeholder="Ask about Zidan's experience, skills, or projects..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Ask about Zidan" onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()" class="send-btn">
                 <i class="fas fa-paper-plane"></i>
             </button>
