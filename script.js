@@ -131,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Minimize chatbot function
+
+// Minimize chatbot function
+
 function minimizeChatbot() {
     const chatbot = document.getElementById('chatbot');
     const toggleBtn = document.getElementById('toggle-btn');
