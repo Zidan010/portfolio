@@ -338,17 +338,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="y9wr2dLyDiW5bTngzDndkOMw-L7lrZlAYk7mxnXPUIw" />      
+
     <!-- Optimized Title & Description -->
     <title>Sadir Ahmed Zidan | Machine Learning Engineer Portfolio</title>
     <meta name="description" content="Portfolio of Sadir Ahmed Zidan, a Machine Learning Engineer based in Dhaka, Bangladesh. Specializing in NLP, LLMs, RAG, and Computer Vision. Explore projects, experience, and contact details.">
-    <meta name="keywords" content="Sadir Ahmed Zidan, Ahmed Zidan, Zidan, Machine Learning Engineer, AI Engineer, NLP, RAG, Computer Vision, LLMs, Portfolio, Dhaka Bangladesh">
+    <meta name="keywords" content="Sadir Ahmed Zidan, Ahmed Zidan, Machine Learning Engineer, AI Engineer, NLP, RAG, Computer Vision, LLMs, Portfolio, Dhaka Bangladesh">
     <meta name="author" content="Sadir Ahmed Zidan">
 
     <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:title" content="Sadir Ahmed Zidan | Machine Learning Engineer">
     <meta property="og:description" content="Explore projects and experience of Machine Learning Engineer Sadir Ahmed Zidan.">
-    <meta property="og:image" content="https://ahmedzidan.netlify.app/Zidan.png">
+    <meta property="og:image" content="https://ahmedzidan.netlify.app/Zidan.webp">
     <meta property="og:url" content="https://ahmedzidan.netlify.app">
     <meta property="og:type" content="website">
 
@@ -356,17 +356,35 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Sadir Ahmed Zidan | Machine Learning Engineer">
     <meta name="twitter:description" content="Portfolio of ML Engineer specializing in NLP, LLMs, AI APIs, and Computer Vision.">
-    <meta name="twitter:image" content="https://ahmedzidan.netlify.app/Zidan.png">
+    <meta name="twitter:image" content="https://ahmedzidan.netlify.app/Zidan.webp">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://ahmedzidan.netlify.app">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="Zidan.png">
+    <link rel="icon" type="image/png" href="Zidan.webp">
+
+    <!-- Preconnects for faster CDN requests -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!-- Styles & Icons -->
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Critical CSS can be inlined above this line for faster first paint -->
+    <link rel="stylesheet" href="style.css" media="all">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="all" onload="this.onload=null;this.removeAttribute('media');" />
+
+    <!-- Fonts Optimization -->
+    <style>
+      @font-face {
+        font-family: 'FontAwesome';
+        src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2') format('woff2');
+        font-display: swap;
+      }
+    </style>
+
+    <!-- Hero Image LCP Priority -->
+    <link rel="preload" as="image" href="https://ahmedzidan.netlify.app/Zidan.webp" fetchpriority="high">
 
     <!-- Schema.org Person Structured Data -->
     <script type="application/ld+json">
@@ -376,7 +394,7 @@
       "name": "Sadir Ahmed Zidan",
       "jobTitle": "Machine Learning Engineer",
       "url": "https://ahmedzidan.netlify.app",
-      "image": "https://ahmedzidan.netlify.app/Zidan.png",
+      "image": "https://ahmedzidan.netlify.app/Zidan.webp",
       "sameAs": [
         "https://linkedin.com/in/sadir-ahmed-zidan",
         "https://github.com/zidan010",
@@ -390,6 +408,7 @@
     }
     </script>
 </head>
+
 
 <body>
     <nav class="navbar">
