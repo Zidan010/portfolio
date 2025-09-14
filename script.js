@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
             linkedin: "Sadir Ahmed Zidan",
             title: "Machine Learning Engineer",
             experience: "2+ years",
-            marital_relationship_Status: "Single",
+            marital_relationship_Status: "Not Married",
             future_career_Goals: [
                 "Lead AI-driven projects in NLP and computer vision to solve real-world problems in tech giant companies.",
                 "Contribute to open-source AI frameworks and tools",
@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: "Jr. Machine Learning Engineer",
                 company: "Nasir Syntax Solution Limited (concern of Nasir Group)",
                 duration: "January 2024 – Present",
+                link: "https://www.linkedin.com/company/syntax-solution-limited/posts/?feedView=all",
                 achievements: [
                     "Developed and optimized NLP models and LLMs, enhancing data processing efficiency by 40% for language-based tasks",
                     "Designed scalable data pipelines, reducing resource consumption by 70% through model finetuning, quantization, and optimization techniques",
@@ -304,23 +305,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Optimized AI models through prompt engineering, enhancing performance metrics by 25% for educational applications"
                 ]
             },
-
-            // {
-            //     title: "AI Developer - Remote",
-            //     company: "GradMate AI",
-            //     duration: "Apr 2025 – Present",
-            //     achievements: [
-            //         "Collaborated with development teams to design AI-driven educational tools, AI Agents using LangChain and LLMs via Groq",
-            //         "Built and maintained scalable backend APIs with Fast API, integrating with front ends, reducing latency by 30%",
-            //         "Utilized Jira and GitHub for agile project management, streamlining development cycles and improving team productivity by 20%",
-            //         "Optimized AI models through prompt engineering, enhancing performance metrics by 25% for educational applications"
-            //     ]
-            // },
-
+            {
+                title: "AI Developer - Part Time, Remote",
+                company: "GradMate AI",
+                duration: "April 2025 – Present",
+                link: "https://gradmate.ai",
+                achievements: [
+                    "Collaborated with development teams to design AI-driven educational tools, AI Agents using LangChain and LLMs via Groq",
+                    "Built and maintained scalable backend APIs with Fast API, integrating with front ends, reducing latency by 30%",
+                    "Utilized Jira and GitHub for agile project management, streamlining development cycles and improving team productivity by 20%",
+                    "Optimized AI models through prompt engineering, enhancing performance metrics by 25% for educational applications"
+                ]
+            },
+            {
+                title: "AI Developer - Contractual Remote",
+                company: "Ambitionix",
+                duration: "May 2025 – August 2025",
+                link: "https://ambitionix.com",
+                achievements: [
+                    "Finetuning LLMs for specific Task.",
+                    "Creating APIs for deployment.",
+                    "Collaborate with cross-functional teams to define and achieve project goals."
+                ]
+            },
             {
                 title: "Machine Learning Intern",
                 company: "Nasir Syntax Solution Limited (concern of Nasir Group)",
                 duration: "October 2023 – December 2023",
+                link: "https://www.linkedin.com/company/syntax-solution-limited/posts/?feedView=all",
                 achievements: [
                     "Conducted research on recommendation systems and chatbots, improving text generation accuracy by 20% using LLMs",
                     "Streamlined data collection processes, aggregating diverse datasets to support different AI use cases, increasing data availability by 35%",

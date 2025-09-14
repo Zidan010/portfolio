@@ -372,10 +372,80 @@ body {
     transform: translateY(-1px);
 }
 
+/* Experience Section */
+.experience {
+    padding: 5rem 0;
+    background: var(--background);
+}
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.experience-card {
+    background: var(--accent);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.experience-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.experience-content {
+    flex-grow: 1;
+}
+
+.experience-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.experience-card h4 {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.experience-card .duration {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.experience-card ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.experience-card li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.experience-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
 /* Projects Section */
 .projects {
     padding: 5rem 0;
-    background: var(--background);
+    background: var(--surface);
 }
 
 .projects-grid {
@@ -391,6 +461,8 @@ body {
     box-shadow: var(--shadow);
     transition: var(--transition);
     border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -410,6 +482,13 @@ body {
 
 .project-content {
     padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-details {
+    flex-grow: 1;
 }
 
 .project-content h3 {
@@ -428,7 +507,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .tech-tag {
@@ -443,12 +522,14 @@ body {
 .project-links {
     display: flex;
     gap: 0.75rem;
+    margin-top: 1rem;
+    align-self: flex-start;
 }
 
 /* Contact Section */
 .contact {
     padding: 5rem 0;
-    background: var(--surface);
+    background: var(--background);
 }
 
 .contact-description {
@@ -749,6 +830,10 @@ body {
         text-align: center;
     }
     
+    .experience-grid {
+        grid-template-columns: 1fr;
+    }
+    
     .projects-grid {
         grid-template-columns: 1fr;
     }
@@ -756,4 +841,4 @@ body {
     .contact-grid {
         grid-template-columns: 1fr;
     }
-}
+}   

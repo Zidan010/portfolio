@@ -82,7 +82,7 @@ export async function handler(event) {
                     { role: "user", content: message }
                 ],
                 temperature: 0.5,
-                max_tokens: 500
+                max_tokens: 200
             })
         });
 
