@@ -545,3 +545,15 @@ ${JSON.stringify(resumeData, null, 2)}
         if (!chatbot.classList.contains('minimized')) setTimeout(() => { if (userInput) userInput.focus(); }, 100);
     };
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.querySelector('.download-resume-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    const key = 'resumeDownloadCount';
+    const count = (parseInt(localStorage.getItem(key), 10) || 0) + 1;
+    localStorage.setItem(key, count);
+    console.log(`Resume download clicked — total: ${count}`);
+  });
+});
