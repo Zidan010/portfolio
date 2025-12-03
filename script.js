@@ -557,3 +557,65 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`Resume download clicked — total: ${count}`);
   });
 });
+
+
+const chatMessages = document.getElementById('chatMessages');
+const userInput = document.getElementById('userInput');
+
+function appendMessage(content, sender) {
+  const msgDiv = document.createElement('div');
+  msgDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+  msgDiv.innerHTML = content;
+  chatMessages.appendChild(msgDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function generateResponse(userMessage) {
+  if (!userMessage) return { content: "Please enter a message." };
+
+    const systemPrompt = `You are an AI assistant tasked with answering questions based *exclusively* on the following resume data. Do not use external information or make assumptions beyond the provided data. Provide concise and accurate answers based on the resume:\n${JSON.stringify(resumeData, null, 2)}`;
+  try {
+    const response = await fetch("/.netlify/functions/groq", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage, systemPrompt })
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+
+    const rawContent = data.choices?.[0]?.message?.content?.trim();
+    try {
+      return JSON.parse(rawContent);
+    } catch {
+      return { content: rawContent };
+    }
+  } catch (err) {
+    console.error(err);
+    return { content: "Sorry, something went wrong." };
+  }
+}
+
+async function sendMessage() {
+  const message = userInput.value.trim();
+  if (!message) return;
+  
+  appendMessage(message, 'user');
+  userInput.value = '';
+  
+  appendMessage('Thinking...', 'bot');
+  
+  const response = await generateResponse(message);
+
+  // Remove the "Thinking..." placeholder
+  const lastBotMsg = chatMessages.querySelector('.bot-message:last-child');
+  if (lastBotMsg && lastBotMsg.textContent === 'Thinking...') {
+    lastBotMsg.remove();
+  }
+
+  appendMessage(response.content || "No response.", 'bot');
+}
+
+function handleKeyPress(e) {
+  if (e.key === 'Enter') sendMessage();
+}
