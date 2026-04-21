@@ -101,6 +101,18 @@ window.resumeDataForChatbot = {
       ]
     }
   ],
+  "research_work": [
+    {
+      "research_name": "A Study on the Use of Machine Learning Algorithms for Predicting Mental Health Conditions",
+      "description": "Investigated classical ML approaches (SVM, Random Forest, ensemble methods) on structured clinical/survey data for early mental health condition prediction. Explored feature selection, class imbalance handling, and model interpretability.",
+      "source_link": null
+    },
+    {
+      "research_name": "Efficient Monocular Depth Estimation for Edge Devices",
+      "description": "Contributing to experiments and manuscript writing for a study on lightweight monocular depth estimation models optimized for edge deployment. Focus on minimizing computational resource usage while maintaining competitive accuracy against state-of-the-art methods.",
+      "source_link": null
+    }
+  ],
   "projects": [
     {
       "name": "Multilingual RAG System for Bengali and English Queries",
@@ -109,12 +121,12 @@ window.resumeDataForChatbot = {
     },
     {
       "name": "Face Mask Detection",
-      "description": "A system to detect facial masks using a cascade classifier.",
+      "description": "A system to detect facial masks using a cascade classifier. Used a large dataset that varies with different types of poses with masks worn by humans. The model got good accuracy after implementation.",
       "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Assignment_1(Mask_Detection)"
     },
     {
       "name": "Drowsiness Detection",
-      "description": "A real-time system using machine learning algorithms and image processing to detect driver drowsiness.",
+      "description": "A real-time system using machine learning algorithms and image processing to detect driver drowsiness. It can continuously monitor the driver while they are driving and provide immediate feedback or alerts.",
       "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Project"
     },
     {
