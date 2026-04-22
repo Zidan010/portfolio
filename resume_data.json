@@ -1,0 +1,132 @@
+{
+  "personal_info": {
+    "name": "Sadir Ahmed Zidan",
+    "email": "sazidan559@gmail.com",
+    "phone": "01640423606",
+    "address": "Nikunja-2, Dhaka, Bangladesh",
+    "github": "https://github.com/zidan010",
+    "linkedin": "https://www.linkedin.com/in/sadir-ahmed-zidan/"
+  },
+  "education": [
+    {
+      "degree": "BSc in Computer Science & Engineering",
+      "institution": "American International University Bangladesh",
+      "year": "January 2020 - August 2024"
+    }
+  ],
+  "skills": {
+    "Programming Languages": ["Python", "R"],
+    "Frameworks & Libraries": ["TensorFlow", "Keras", "LangChain", "Groq", "PyTorch", "Fast API", "Pandas", "Faiss", "Llama cpp", "ONNX", "Ollama", "Hugging Face", "Streamlit"],
+    "Tools & Platforms": ["Docker", "MLFlow", "Kubernetes", "GitHub", "VS Code", "R Studio", "Colab", "LoRA"],
+    "Databases": ["SQL", "MongoDB"],
+    "Operating Systems": ["Windows", "Linux"]
+  },
+  "experience": [
+    {
+      "title": "Machine Learning Engineer - Fulltime, Onsite",
+      "company": "Nasir Syntax Solution Limited",
+      "company_link": "https://www.syntaxbd.com/",
+      "duration": "January 2024 - Present",
+      "works_done": [
+        "Designed and shipped production RAG and agentic LLM systems using LangChain, FAISS, Milvus, and custom retrieval pipelines for vector search, personalized search and custom chatbots.",
+        "Fine-tuned and quantized LLMs with LoRA/QLoRA, built dynamic model loading and inference optimization workflows, achieved 60% reduction in model memory footprint enabling deployment on resource-constrained and edge-compatible environments.",
+        "Developed computer vision pipelines including object detection, segmentation, ocr for document data extraction and 3D reconstruction projects.",
+        "Trained custom deep learning models from scratch and integrated pretrained models.",
+        "Built and deployed scalable FastAPI inference services with Docker, MLflow tracking, request validation, rate-limiting, and monitoring."
+      ]
+    },
+    {
+      "title": "AI Developer - Part time, Remote",
+      "company": "GradMate.ai",
+      "company_link": "http://gradmate.ai",
+      "duration": "Apr 2025 - Feb 2026",
+      "works_done": [
+        "Built high-performance agentic RAG systems and multi-step AI workflows using LangChain and Groq's ultra-fast LLM inference.",
+        "Implemented real-time speech-to-text (STT) and text-to-speech (TTS) integrations into educational AI agents.",
+        "Optimized latency and cost for Groq/LangChain pipelines serving live user-facing features, cut average inference response time by 35% and reduced per-query API cost through prompt compression and model routing strategies.",
+        "Collaborated on modular AI architecture, data contracts, and retrieval quality standards with frontend and platform teams."
+      ]
+    },
+    {
+      "title": "AI Engineer - Contractual, Remote",
+      "company": "Ambitionix",
+      "company_link": "https://ambitionix.com/",
+      "duration": "May 2025 - Jan 2026",
+      "works_done": [
+        "Fine-tuned LLMs for specific tasks.",
+        "Created agents and APIs for deployment.",
+        "Collaborated with cross-functional teams to achieve project goals."
+      ]
+    },
+    {
+      "title": "Machine Learning Intern",
+      "company": "Nasir Syntax Solution Limited",
+      "company_link": "https://www.syntaxbd.com/",
+      "duration": "October 2023 - December 2023",
+      "works_done": [
+        "Conducted research on personalized recommendation systems, chatbots, and text generation using LLMs and computer vision.",
+        "Scraped and preprocessed data, including tokenization and vectorization, and fine-tuned LLMs for specific applications."
+      ]
+    }
+  ],
+  "research_work": [
+    {
+      "research_name": "A Study on the Use of Machine Learning Algorithms for Predicting Mental Health Conditions",
+      "description": "Investigated classical ML approaches (SVM, Random Forest, ensemble methods) on structured clinical/survey data for early mental health condition prediction. Explored feature selection, class imbalance handling, and model interpretability.",
+      "source_link": null
+    },
+    {
+      "research_name": "Efficient Monocular Depth Estimation for Edge Devices",
+      "description": "Contributing to experiments and manuscript writing for a study on lightweight monocular depth estimation models optimized for edge deployment. Focus on minimizing computational resource usage while maintaining competitive accuracy against state-of-the-art methods.",
+      "source_link": null
+    }
+  ],
+  "projects": [
+    {
+      "name": "Multilingual RAG System for Bengali and English Queries",
+      "description": "A system to process queries in English and Bengali, retrieve relevant information from a PDF document (specifically the HSC26 Bangla 1st Paper book), and generate meaningful answers.",
+      "source_link": "https://github.com/Zidan010/multilingual-rag-bangla"
+    },
+    {
+      "name": "Face Mask Detection",
+      "description": "A system to detect facial masks using a cascade classifier. Used a large dataset that varies with different types of poses with masks worn by humans. The model got good accuracy after implementation.",
+      "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Assignment_1(Mask_Detection)"
+    },
+    {
+      "name": "Drowsiness Detection",
+      "description": "A real-time system using machine learning algorithms and image processing to detect driver drowsiness. It can continuously monitor the driver while they are driving and provide immediate feedback or alerts.",
+      "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Project"
+    },
+    {
+      "name": "Sentiment Analysis Chatbot",
+      "description": "A simple sentiment analysis chatbot that analyzes the user's mood based on their input and provides contextual responses.",
+      "source_link": "https://github.com/Zidan010/Sentiment_Analysis_Chatbot_using_NLTK_TextBlob"
+    },
+    {
+      "name": "Life Insurance Support Assistant",
+      "description": "Agentic life-insurance assistant built using LangChain + Groq, designed to answer domain-specific questions about policy types, benefits, eligibility, and claims, using structured category-based reasoning.",
+      "source_link": "https://github.com/Zidan010/insurance-support-assistant"
+    },
+    {
+      "name": "Voice-Enabled Agentic RAG",
+      "description": "A modular, local Retrieval-Augmented Generation (RAG) pipeline for multi-domain document Q&A, featuring PDF cleaning, adaptive chunking, FAISS vector indexing, multi-agent retrieval, and both text and voice CLI interfaces.",
+      "source_link": "https://github.com/Zidan010/voice-enabled-ai-agent"
+    }
+  ],
+  "summary": "AI/ML Engineer with 2+ years of production experience building and deploying LLM-powered applications. Specialized in fine-tuning LLMs with LoRA/QLoRA, designing advanced RAG & agentic systems, and delivering low-latency inference APIs using LangChain, Groq, FastAPI, Docker, and MLflow. Hands-on expertise in computer vision, 3D reconstruction and multilingual retrieval pipelines (FAISS, Milvus), along with voice enabled systems. Proven track record of shipping scalable AI solutions end-to-end, from custom model training and pretrained model integration to production deployment and monitoring.",
+  "constants": {
+    "marital_relationship_Status": "Not Married",
+    "future_career_Goals": [
+      "Lead AI-driven projects in NLP and computer vision to solve real-world problems in tech giant companies.",
+      "Contribute to open-source AI frameworks and tools",
+      "Pursue advanced certifications in deep learning and cloud-based AI deployment",
+      "Build own AI products."
+    ],
+    "availability": "Available for remote/online/work from home positions only. Available for Machine Learning/AI related positions",
+    "lookingFor": [
+      "Opportunities to work on innovative AI projects, particularly in NLP, LLMs, and computer vision",
+      "Collaborative environments with a focus on cutting-edge technology and continuous learning",
+      "Roles that offer growth into senior technical or leadership positions"
+    ]
+  }
+}

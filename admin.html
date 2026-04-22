@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel — Portfolio</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --surface2: #1a1a24;
+            --border: #2a2a3a;
+            --accent: #7c3aed;
+            --accent2: #06b6d4;
+            --success: #10b981;
+            --warn: #f59e0b;
+            --danger: #ef4444;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --radius: 10px;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+        a { color: var(--accent2); text-decoration: none; }
+        input, textarea, select { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; padding: 8px 12px; width: 100%; outline: none; font-family: inherit; transition: border-color .2s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+        textarea { resize: vertical; min-height: 72px; }
+        button { cursor: pointer; border: none; border-radius: 6px; font-size: 13px; font-family: inherit; padding: 8px 16px; transition: opacity .15s, transform .1s; }
+        button:hover { opacity: .88; }
+        button:active { transform: scale(.97); }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-warn { background: var(--warn); color: #000; }
+        label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 4px; font-weight: 500; letter-spacing: .3px; }
+        .field { margin-bottom: 12px; }
+        .row { display: flex; gap: 12px; }
+        .row > * { flex: 1; min-width: 0; }
+
+        /* ── Login Screen ── */
+        #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 380px; max-width: 95vw; }
+        .login-card h1 { font-size: 22px; margin-bottom: 6px; }
+        .login-card p { color: var(--text2); font-size: 13px; margin-bottom: 28px; }
+        .login-card .field { margin-bottom: 16px; }
+        .login-card button { width: 100%; padding: 11px; font-size: 14px; margin-top: 8px; }
+        #login-error { color: var(--danger); font-size: 12px; margin-top: 8px; display: none; }
+
+        /* ── Main Layout ── */
+        #admin-panel { display: none; }
+        .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .topbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+        .topbar-brand span.dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
+        .topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+        .layout { display: flex; min-height: calc(100vh - 56px); }
+
+        /* ── Sidebar ── */
+        .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); flex-shrink: 0; padding: 16px 0; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
+        .sidebar-section { padding: 4px 12px; margin-bottom: 4px; }
+        .sidebar-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); padding: 8px 12px 4px; }
+        .nav-item { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-radius: 7px; cursor: pointer; font-size: 13px; color: var(--text2); transition: background .15s, color .15s; }
+        .nav-item:hover { background: var(--surface2); color: var(--text); }
+        .nav-item.active { background: var(--accent); color: #fff; }
+        .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+
+        /* ── Content ── */
+        .content { flex: 1; min-width: 0; padding: 28px; max-width: 900px; }
+
+        /* ── Section Cards ── */
+        .section-page { display: none; }
+        .section-page.active { display: block; }
+        .page-header { margin-bottom: 24px; }
+        .page-header h2 { font-size: 20px; font-weight: 700; }
+        .page-header p { color: var(--text2); font-size: 13px; margin-top: 4px; }
+
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .card-header h3 { font-size: 14px; font-weight: 600; }
+        .card-actions { display: flex; gap: 8px; }
+
+        /* ── List Items (experience, projects etc) ── */
+        .list-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 10px; position: relative; }
+        .list-item-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+        .list-item-title { font-weight: 600; font-size: 13px; }
+        .list-item-sub { font-size: 12px; color: var(--text2); }
+        .remove-btn { background: none; border: none; color: var(--danger); font-size: 16px; padding: 2px 6px; cursor: pointer; line-height: 1; }
+        .remove-btn:hover { background: rgba(239,68,68,.1); border-radius: 4px; }
+
+        /* ── Tags/Skills ── */
+        .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .tag { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; font-size: 12px; display: flex; align-items: center; gap: 5px; }
+        .tag button { background: none; border: none; color: var(--text2); font-size: 13px; padding: 0; line-height: 1; cursor: pointer; }
+        .tag button:hover { color: var(--danger); }
+        .tag-input-row { display: flex; gap: 8px; margin-top: 8px; }
+        .tag-input-row input { flex: 1; }
+
+        /* ── Works Done list ── */
+        .works-list { list-style: none; }
+        .works-list li { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+        .works-list li input { flex: 1; }
+        .works-list li button { flex-shrink: 0; padding: 6px 10px; }
+
+        /* ── Status toast ── */
+        #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: 13px; box-shadow: 0 8px 32px rgba(0,0,0,.5); z-index: 9999; transform: translateY(80px); opacity: 0; transition: transform .3s, opacity .3s; max-width: 340px; }
+        #toast.show { transform: translateY(0); opacity: 1; }
+        #toast.success { border-color: var(--success); color: var(--success); }
+        #toast.error { border-color: var(--danger); color: var(--danger); }
+        #toast.info { border-color: var(--accent2); color: var(--accent2); }
+
+        /* ── PDF Upload area ── */
+        .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px 20px; text-align: center; cursor: pointer; transition: border-color .2s; }
+        .upload-zone:hover, .upload-zone.drag-over { border-color: var(--accent); }
+        .upload-zone .upload-icon { font-size: 36px; margin-bottom: 10px; }
+        .upload-zone p { color: var(--text2); font-size: 13px; }
+        .upload-zone strong { color: var(--text); }
+        #pdf-input { display: none; }
+        .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 12px; display: none; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width .3s; }
+
+        /* ── Save bar ── */
+        .save-bar { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 14px 0; margin-top: 24px; display: flex; align-items: center; gap: 12px; }
+        .save-bar .save-hint { font-size: 12px; color: var(--text2); }
+
+        /* ── Constants editor ── */
+        .const-list { list-style: none; }
+        .const-list li { display: flex; gap: 8px; margin-bottom: 6px; }
+        .const-list li input { flex: 1; }
+
+        /* ── Deploy status ── */
+        .deploy-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 20px; }
+        .deploy-badge.pending { background: rgba(245,158,11,.1); color: var(--warn); }
+        .deploy-badge.done { background: rgba(16,185,129,.1); color: var(--success); }
+
+        @media (max-width: 700px) {
+            .sidebar { display: none; }
+            .content { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ LOGIN ═══════════════════════════ -->
+<div id="login-screen">
+    <div class="login-card">
+        <h1>🔐 Admin Panel</h1>
+        <p>Sign in to manage your portfolio content</p>
+        <div class="field">
+            <label>Username</label>
+            <input type="text" id="login-user" placeholder="admin" autocomplete="username" />
+        </div>
+        <div class="field">
+            <label>Password</label>
+            <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Sign In</button>
+        <p id="login-error">Invalid credentials. Please try again.</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════ ADMIN PANEL ═══════════════════════════ -->
+<div id="admin-panel">
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-brand">
+            <span class="dot"></span>
+            Portfolio Admin
+        </div>
+        <div class="topbar-actions">
+            <span id="deploy-status"></span>
+            <button class="btn-success" onclick="saveAll()" id="save-btn">💾 Save & Deploy</button>
+            <button class="btn-secondary" onclick="doLogout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-label">Resume Sections</div>
+            <div class="nav-item active" onclick="showSection('overview')" data-section="overview"><span class="icon">📊</span> Overview</div>
+            <div class="nav-item" onclick="showSection('personal')" data-section="personal"><span class="icon">👤</span> Personal Info</div>
+            <div class="nav-item" onclick="showSection('summary')" data-section="summary"><span class="icon">📝</span> Summary</div>
+            <div class="nav-item" onclick="showSection('education')" data-section="education"><span class="icon">🎓</span> Education</div>
+            <div class="nav-item" onclick="showSection('skills')" data-section="skills"><span class="icon">⚡</span> Skills</div>
+            <div class="nav-item" onclick="showSection('experience')" data-section="experience"><span class="icon">💼</span> Experience</div>
+            <div class="nav-item" onclick="showSection('research')" data-section="research"><span class="icon">🔬</span> Research</div>
+            <div class="nav-item" onclick="showSection('projects')" data-section="projects"><span class="icon">🚀</span> Projects</div>
+            <div class="sidebar-label">Extra</div>
+            <div class="nav-item" onclick="showSection('constants')" data-section="constants"><span class="icon">⚙️</span> Constants</div>
+            <div class="nav-item" onclick="showSection('cv')" data-section="cv"><span class="icon">📄</span> Upload CV</div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+
+            <!-- ── Overview ── -->
+            <div class="section-page active" id="section-overview">
+                <div class="page-header">
+                    <h2>📊 Overview</h2>
+                    <p>Welcome back! Use the sidebar to edit any section, then click <strong>Save & Deploy</strong> to push changes to GitHub.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>Current Data</h3></div>
+                    <div id="overview-stats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3>How it works</h3></div>
+                    <ol style="padding-left:18px;color:var(--text2);font-size:13px;line-height:2;">
+                        <li>Edit any section in the sidebar</li>
+                        <li>Or upload a new CV PDF to auto-extract all data</li>
+                        <li>Click <strong style="color:var(--text)">Save & Deploy</strong></li>
+                        <li>Changes commit to GitHub → Netlify auto-redeploys (~30s)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- ── Personal Info ── -->
+            <div class="section-page" id="section-personal">
+                <div class="page-header"><h2>👤 Personal Info</h2><p>Basic contact and profile information</p></div>
+                <div class="card">
+                    <div class="row">
+                        <div class="field"><label>Full Name</label><input id="p-name" type="text" /></div>
+                        <div class="field"><label>Email</label><input id="p-email" type="email" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="field"><label>Phone</label><input id="p-phone" type="text" /></div>
+                        <div class="field"><label>Address</label><input id="p-address" type="text" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="field"><label>GitHub URL</label><input id="p-github" type="url" /></div>
+                        <div class="field"><label>LinkedIn URL</label><input id="p-linkedin" type="url" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Summary ── -->
+            <div class="section-page" id="section-summary">
+                <div class="page-header"><h2>📝 Summary / Bio</h2><p>The professional summary or objective shown on your portfolio</p></div>
+                <div class="card">
+                    <div class="field">
+                        <label>Summary</label>
+                        <textarea id="s-summary" rows="6"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Education ── -->
+            <div class="section-page" id="section-education">
+                <div class="page-header"><h2>🎓 Education</h2><p>Degrees and academic background</p></div>
+                <div id="edu-list"></div>
+                <button class="btn-secondary" onclick="addEducation()">＋ Add Education</button>
+            </div>
+
+            <!-- ── Skills ── -->
+            <div class="section-page" id="section-skills">
+                <div class="page-header"><h2>⚡ Skills</h2><p>Skill categories and individual items</p></div>
+                <div id="skills-list"></div>
+                <button class="btn-secondary" onclick="addSkillCategory()">＋ Add Category</button>
+            </div>
+
+            <!-- ── Experience ── -->
+            <div class="section-page" id="section-experience">
+                <div class="page-header"><h2>💼 Experience</h2><p>Work history and job roles</p></div>
+                <div id="exp-list"></div>
+                <button class="btn-secondary" onclick="addExperience()">＋ Add Experience</button>
+            </div>
+
+            <!-- ── Research ── -->
+            <div class="section-page" id="section-research">
+                <div class="page-header"><h2>🔬 Research Work</h2><p>Academic papers, studies, and research contributions</p></div>
+                <div id="research-list"></div>
+                <button class="btn-secondary" onclick="addResearch()">＋ Add Research</button>
+            </div>
+
+            <!-- ── Projects ── -->
+            <div class="section-page" id="section-projects">
+                <div class="page-header"><h2>🚀 Projects</h2><p>Personal and professional projects</p></div>
+                <div id="projects-list"></div>
+                <button class="btn-secondary" onclick="addProject()">＋ Add Project</button>
+            </div>
+
+            <!-- ── Constants ── -->
+            <div class="section-page" id="section-constants">
+                <div class="page-header"><h2>⚙️ Constants</h2><p>Extra info used by the chatbot (not on the main page)</p></div>
+                <div class="card">
+                    <div class="field">
+                        <label>Marital / Relationship Status</label>
+                        <input id="c-marital" type="text" />
+                    </div>
+                    <div class="field">
+                        <label>Availability</label>
+                        <input id="c-availability" type="text" />
+                    </div>
+                    <div class="field">
+                        <label>Future Career Goals <span style="color:var(--text2);font-size:11px;">(one per line)</span></label>
+                        <textarea id="c-goals" rows="5"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Looking For <span style="color:var(--text2);font-size:11px;">(one per line)</span></label>
+                        <textarea id="c-looking" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Upload CV ── -->
+            <div class="section-page" id="section-cv">
+                <div class="page-header"><h2>📄 Upload New CV</h2><p>Upload a PDF — it will be parsed automatically and pre-fill all sections. Review before saving.</p></div>
+                <div class="card">
+                    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('pdf-input').click()">
+                        <div class="upload-icon">📎</div>
+                        <p><strong>Click to choose a PDF</strong> or drag and drop here</p>
+                        <p style="margin-top:6px;font-size:11px;">Only PDF files are accepted</p>
+                        <input type="file" id="pdf-input" accept=".pdf" onchange="handlePdfSelect(event)" />
+                    </div>
+                    <div class="progress-bar" id="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+                    <div id="pdf-status" style="margin-top:12px;font-size:13px;color:var(--text2);"></div>
+                </div>
+                <div class="card" id="pdf-preview" style="display:none;">
+                    <div class="card-header">
+                        <h3>✅ Extraction Preview</h3>
+                        <div class="card-actions">
+                            <button class="btn-success" onclick="applyExtracted()">Apply to All Sections</button>
+                        </div>
+                    </div>
+                    <pre id="pdf-json" style="font-size:11px;color:var(--text2);overflow:auto;max-height:400px;background:var(--surface2);padding:12px;border-radius:6px;"></pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+let resumeData = null;
+let extractedData = null;
+let authToken = localStorage.getItem('admin_token') || null;
+
+// ════════════════════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════════════════════
+async function doLogin() {
+    const username = document.getElementById('login-user').value.trim();
+    const password = document.getElementById('login-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+
+    try {
+        const res = await fetch('/.netlify/functions/admin-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Login failed');
+        authToken = data.token;
+        localStorage.setItem('admin_token', authToken);
+        showAdmin();
+    } catch (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+    }
+}
+
+function doLogout() {
+    localStorage.removeItem('admin_token');
+    authToken = null;
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+}
+
+document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+async function showAdmin() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    await loadData();
+    renderAll();
+    renderOverview();
+    setupDragDrop();
+}
+
+async function loadData() {
+    try {
+        const res = await fetch('/resume_data.json?v=' + Date.now());
+        resumeData = await res.json();
+    } catch {
+        showToast('Could not load resume_data.json', 'error');
+    }
+}
+
+// Auto-show panel if token exists
+if (authToken) showAdmin();
+
+// ════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════════════
+function showSection(name) {
+    document.querySelectorAll('.section-page').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    document.querySelector(`[data-section="${name}"]`).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER ALL SECTIONS FROM resumeData
+// ════════════════════════════════════════════════════════════════════
+function renderAll() {
+    if (!resumeData) return;
+    renderPersonal();
+    renderSummary();
+    renderEducation();
+    renderSkills();
+    renderExperience();
+    renderResearch();
+    renderProjects();
+    renderConstants();
+}
+
+// ── Personal ──
+function renderPersonal() {
+    const p = resumeData.personal_info || {};
+    document.getElementById('p-name').value = p.name || '';
+    document.getElementById('p-email').value = p.email || '';
+    document.getElementById('p-phone').value = p.phone || '';
+    document.getElementById('p-address').value = p.address || '';
+    document.getElementById('p-github').value = p.github || '';
+    document.getElementById('p-linkedin').value = p.linkedin || '';
+}
+
+// ── Summary ──
+function renderSummary() {
+    document.getElementById('s-summary').value = resumeData.summary || '';
+}
+
+// ── Education ──
+function renderEducation() {
+    const container = document.getElementById('edu-list');
+    container.innerHTML = '';
+    (resumeData.education || []).forEach((edu, i) => {
+        container.appendChild(makeEduCard(edu, i));
+    });
+}
+function makeEduCard(edu, i) {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    d.dataset.index = i;
+    d.innerHTML = `
+        <div class="list-item-header">
+            <div><div class="list-item-title">${edu.degree || 'New Degree'}</div><div class="list-item-sub">${edu.institution || ''}</div></div>
+            <button class="remove-btn" onclick="removeItem('education',${i})">✕</button>
+        </div>
+        <div class="row">
+            <div class="field"><label>Degree</label><input value="${esc(edu.degree||'')}" onchange="updateItem('education',${i},'degree',this.value)" /></div>
+            <div class="field"><label>Institution</label><input value="${esc(edu.institution||'')}" onchange="updateItem('education',${i},'institution',this.value)" /></div>
+        </div>
+        <div class="field"><label>Year / Period</label><input value="${esc(edu.year||'')}" onchange="updateItem('education',${i},'year',this.value)" /></div>`;
+    return d;
+}
+function addEducation() {
+    if (!resumeData.education) resumeData.education = [];
+    resumeData.education.push({ degree: '', institution: '', year: '' });
+    renderEducation();
+}
+
+// ── Skills ──
+function renderSkills() {
+    const container = document.getElementById('skills-list');
+    container.innerHTML = '';
+    const skills = resumeData.skills || {};
+    Object.entries(skills).forEach(([cat, items], ci) => {
+        container.appendChild(makeSkillCard(cat, items, ci));
+    });
+}
+function makeSkillCard(cat, items, ci) {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    const tagsHtml = (items || []).map((item, ti) =>
+        `<span class="tag">${esc(item)}<button onclick="removeSkill('${esc(cat)}',${ti})">×</button></span>`
+    ).join('');
+    d.innerHTML = `
+        <div class="list-item-header">
+            <div class="list-item-title">${esc(cat)}</div>
+            <button class="remove-btn" onclick="removeSkillCategory('${esc(cat)}')">✕</button>
+        </div>
+        <div class="field"><label>Category Name</label><input value="${esc(cat)}" onchange="renameSkillCategory('${esc(cat)}',this.value)" /></div>
+        <div class="tags-container" id="skill-tags-${ci}">${tagsHtml}</div>
+        <div class="tag-input-row">
+            <input type="text" placeholder="Add skill..." id="skill-input-${ci}" onkeydown="if(event.key==='Enter')addSkill('${esc(cat)}',${ci})" />
+            <button class="btn-secondary" onclick="addSkill('${esc(cat)}',${ci})">Add</button>
+        </div>`;
+    return d;
+}
+function addSkillCategory() {
+    if (!resumeData.skills) resumeData.skills = {};
+    const name = prompt('Category name (e.g. Frameworks & Libraries):');
+    if (!name) return;
+    resumeData.skills[name] = [];
+    renderSkills();
+}
+function renameSkillCategory(oldName, newName) {
+    if (oldName === newName || !newName) return;
+    const skills = resumeData.skills;
+    const entries = Object.entries(skills);
+    const idx = entries.findIndex(([k]) => k === oldName);
+    if (idx === -1) return;
+    entries[idx][0] = newName;
+    resumeData.skills = Object.fromEntries(entries);
+    renderSkills();
+}
+function removeSkillCategory(cat) {
+    delete resumeData.skills[cat];
+    renderSkills();
+}
+function addSkill(cat, ci) {
+    const input = document.getElementById(`skill-input-${ci}`);
+    const val = input.value.trim();
+    if (!val) return;
+    if (!resumeData.skills[cat]) resumeData.skills[cat] = [];
+    resumeData.skills[cat].push(val);
+    input.value = '';
+    renderSkills();
+}
+function removeSkill(cat, ti) {
+    resumeData.skills[cat].splice(ti, 1);
+    renderSkills();
+}
+
+// ── Experience ──
+function renderExperience() {
+    const container = document.getElementById('exp-list');
+    container.innerHTML = '';
+    (resumeData.experience || []).forEach((exp, i) => container.appendChild(makeExpCard(exp, i)));
+}
+function makeExpCard(exp, i) {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    const worksHtml = (exp.works_done || []).map((w, wi) =>
+        `<li><input value="${esc(w)}" onchange="updateWorkItem(${i},${wi},this.value)" /><button class="btn-danger" style="padding:5px 9px" onclick="removeWorkItem(${i},${wi})">✕</button></li>`
+    ).join('');
+    d.innerHTML = `
+        <div class="list-item-header">
+            <div><div class="list-item-title">${esc(exp.title||'New Role')}</div><div class="list-item-sub">${esc(exp.company||'')}</div></div>
+            <button class="remove-btn" onclick="removeItem('experience',${i})">✕</button>
+        </div>
+        <div class="row">
+            <div class="field"><label>Job Title</label><input value="${esc(exp.title||'')}" onchange="updateItem('experience',${i},'title',this.value)" /></div>
+            <div class="field"><label>Company</label><input value="${esc(exp.company||'')}" onchange="updateItem('experience',${i},'company',this.value)" /></div>
+        </div>
+        <div class="row">
+            <div class="field"><label>Company Link</label><input type="url" value="${esc(exp.company_link||'')}" onchange="updateItem('experience',${i},'company_link',this.value)" /></div>
+            <div class="field"><label>Duration</label><input value="${esc(exp.duration||'')}" onchange="updateItem('experience',${i},'duration',this.value)" /></div>
+        </div>
+        <div class="field">
+            <label>Works Done</label>
+            <ul class="works-list" id="works-${i}">${worksHtml}</ul>
+            <button class="btn-secondary" style="margin-top:6px" onclick="addWorkItem(${i})">＋ Add Work Item</button>
+        </div>`;
+    return d;
+}
+function addExperience() {
+    if (!resumeData.experience) resumeData.experience = [];
+    resumeData.experience.push({ title: '', company: '', company_link: '', duration: '', works_done: [] });
+    renderExperience();
+}
+function updateWorkItem(expIdx, workIdx, val) {
+    resumeData.experience[expIdx].works_done[workIdx] = val;
+}
+function addWorkItem(expIdx) {
+    resumeData.experience[expIdx].works_done.push('');
+    renderExperience();
+}
+function removeWorkItem(expIdx, workIdx) {
+    resumeData.experience[expIdx].works_done.splice(workIdx, 1);
+    renderExperience();
+}
+
+// ── Research ──
+function renderResearch() {
+    const container = document.getElementById('research-list');
+    container.innerHTML = '';
+    (resumeData.research_work || []).forEach((r, i) => container.appendChild(makeResearchCard(r, i)));
+}
+function makeResearchCard(r, i) {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    d.innerHTML = `
+        <div class="list-item-header">
+            <div class="list-item-title">${esc(r.research_name||'New Research')}</div>
+            <button class="remove-btn" onclick="removeItem('research_work',${i})">✕</button>
+        </div>
+        <div class="field"><label>Research Name</label><input value="${esc(r.research_name||'')}" onchange="updateItem('research_work',${i},'research_name',this.value)" /></div>
+        <div class="field"><label>Description</label><textarea onchange="updateItem('research_work',${i},'description',this.value)">${esc(r.description||'')}</textarea></div>
+        <div class="field"><label>Source Link (optional)</label><input type="url" value="${esc(r.source_link||'')}" onchange="updateItem('research_work',${i},'source_link',this.value||null)" /></div>`;
+    return d;
+}
+function addResearch() {
+    if (!resumeData.research_work) resumeData.research_work = [];
+    resumeData.research_work.push({ research_name: '', description: '', source_link: null });
+    renderResearch();
+}
+
+// ── Projects ──
+function renderProjects() {
+    const container = document.getElementById('projects-list');
+    container.innerHTML = '';
+    (resumeData.projects || []).forEach((p, i) => container.appendChild(makeProjectCard(p, i)));
+}
+function makeProjectCard(p, i) {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    d.innerHTML = `
+        <div class="list-item-header">
+            <div class="list-item-title">${esc(p.name||'New Project')}</div>
+            <button class="remove-btn" onclick="removeItem('projects',${i})">✕</button>
+        </div>
+        <div class="field"><label>Project Name</label><input value="${esc(p.name||'')}" onchange="updateItem('projects',${i},'name',this.value)" /></div>
+        <div class="field"><label>Description</label><textarea onchange="updateItem('projects',${i},'description',this.value)">${esc(p.description||'')}</textarea></div>
+        <div class="field"><label>Source Link (GitHub URL)</label><input type="url" value="${esc(p.source_link||'')}" onchange="updateItem('projects',${i},'source_link',this.value||null)" /></div>`;
+    return d;
+}
+function addProject() {
+    if (!resumeData.projects) resumeData.projects = [];
+    resumeData.projects.push({ name: '', description: '', source_link: null });
+    renderProjects();
+}
+
+// ── Constants ──
+function renderConstants() {
+    const c = resumeData.constants || {};
+    document.getElementById('c-marital').value = c.marital_relationship_Status || '';
+    document.getElementById('c-availability').value = c.availability || '';
+    document.getElementById('c-goals').value = (c.future_career_Goals || []).join('\n');
+    document.getElementById('c-looking').value = (c.lookingFor || []).join('\n');
+}
+
+// ── Generic helpers ──
+function updateItem(section, index, field, value) {
+    resumeData[section][index][field] = value;
+}
+function removeItem(section, index) {
+    resumeData[section].splice(index, 1);
+    const renderMap = { education: renderEducation, experience: renderExperience, research_work: renderResearch, projects: renderProjects };
+    if (renderMap[section]) renderMap[section]();
+}
+
+// ── Overview stats ──
+function renderOverview() {
+    if (!resumeData) return;
+    const stats = [
+        ['Experience', (resumeData.experience || []).length, '💼'],
+        ['Projects', (resumeData.projects || []).length, '🚀'],
+        ['Research', (resumeData.research_work || []).length, '🔬'],
+        ['Education', (resumeData.education || []).length, '🎓'],
+        ['Skill Categories', Object.keys(resumeData.skills || {}).length, '⚡'],
+    ];
+    const container = document.getElementById('overview-stats');
+    container.innerHTML = stats.map(([label, count, icon]) => `
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:4px;">${icon}</div>
+            <div style="font-size:22px;font-weight:700;">${count}</div>
+            <div style="font-size:12px;color:var(--text2);">${label}</div>
+        </div>`).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// COLLECT & SAVE
+// ════════════════════════════════════════════════════════════════════
+function collectData() {
+    // Personal
+    resumeData.personal_info = {
+        name: document.getElementById('p-name').value,
+        email: document.getElementById('p-email').value,
+        phone: document.getElementById('p-phone').value,
+        address: document.getElementById('p-address').value,
+        github: document.getElementById('p-github').value,
+        linkedin: document.getElementById('p-linkedin').value,
+    };
+    // Summary
+    resumeData.summary = document.getElementById('s-summary').value;
+    // Constants
+    resumeData.constants = {
+        marital_relationship_Status: document.getElementById('c-marital').value,
+        availability: document.getElementById('c-availability').value,
+        future_career_Goals: document.getElementById('c-goals').value.split('\n').map(s => s.trim()).filter(Boolean),
+        lookingFor: document.getElementById('c-looking').value.split('\n').map(s => s.trim()).filter(Boolean),
+    };
+    return resumeData;
+}
+
+async function saveAll() {
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Saving...';
+    showToast('Committing to GitHub…', 'info');
+
+    try {
+        const data = collectData();
+        const res = await fetch('/.netlify/functions/admin-save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+            body: JSON.stringify({ resumeData: data })
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || 'Save failed');
+
+        showToast('✅ Saved! Netlify is redeploying (~30s)', 'success');
+        document.getElementById('deploy-status').innerHTML =
+            `<span class="deploy-badge pending">⏳ Deploying…</span>`;
+        setTimeout(() => {
+            document.getElementById('deploy-status').innerHTML =
+                `<span class="deploy-badge done">✅ Deployed</span>`;
+        }, 35000);
+    } catch (err) {
+        showToast('❌ ' + err.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '💾 Save & Deploy';
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// PDF UPLOAD & EXTRACTION
+// ════════════════════════════════════════════════════════════════════
+function setupDragDrop() {
+    const zone = document.getElementById('upload-zone');
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault(); zone.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file) processPdf(file);
+    });
+}
+
+function handlePdfSelect(event) {
+    const file = event.target.files[0];
+    if (file) processPdf(file);
+}
+
+async function processPdf(file) {
+    if (!file.name.endsWith('.pdf')) { showToast('Please select a PDF file', 'error'); return; }
+
+    const statusEl = document.getElementById('pdf-status');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    const previewCard = document.getElementById('pdf-preview');
+
+    statusEl.textContent = '📖 Reading PDF…';
+    progressBar.style.display = 'block';
+    progressFill.style.width = '20%';
+    previewCard.style.display = 'none';
+
+    try {
+        // Convert PDF to base64
+        const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+
+        progressFill.style.width = '40%';
+        statusEl.textContent = '🤖 Extracting with AI…';
+
+        const res = await fetch('/.netlify/functions/admin-extract-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+            body: JSON.stringify({
+                pdfBase64: base64,
+                existingConstants: resumeData?.constants || null
+            })
+        });
+
+        progressFill.style.width = '85%';
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Extraction failed');
+
+        progressFill.style.width = '100%';
+        extractedData = data.resumeData;
+
+        // Store PDF for upload too
+        extractedData._pdfBase64 = base64;
+        extractedData._pdfFilename = file.name;
+
+        document.getElementById('pdf-json').textContent = JSON.stringify(extractedData, null, 2);
+        previewCard.style.display = 'block';
+        statusEl.textContent = `✅ Successfully extracted from "${file.name}". Review below and click Apply.`;
+        showToast('PDF extracted! Review and click Apply.', 'success');
+    } catch (err) {
+        statusEl.textContent = '❌ Error: ' + err.message;
+        showToast('Extraction failed: ' + err.message, 'error');
+    } finally {
+        progressBar.style.display = 'none';
+        progressFill.style.width = '0%';
+    }
+}
+
+async function applyExtracted() {
+    if (!extractedData) return;
+    const pdfBase64 = extractedData._pdfBase64;
+    const pdfFilename = extractedData._pdfFilename;
+    delete extractedData._pdfBase64;
+    delete extractedData._pdfFilename;
+
+    resumeData = extractedData;
+    renderAll();
+    renderOverview();
+    showToast('✅ Applied to all sections. Review and Save & Deploy.', 'success');
+    showSection('overview');
+
+    // Also upload the PDF to GitHub in the same save
+    if (pdfBase64 && pdfFilename) {
+        const btn = document.getElementById('save-btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Uploading PDF & saving…';
+        try {
+            const res = await fetch('/.netlify/functions/admin-save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+                body: JSON.stringify({ resumeData, pdfBase64, pdfFilename })
+            });
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.error);
+            showToast('✅ PDF + data saved to GitHub. Deploying…', 'success');
+        } catch (err) {
+            showToast('⚠️ Applied locally. Click Save & Deploy to commit.', 'info');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '💾 Save & Deploy';
+        }
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════════════════════
+function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `show ${type}`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.className = ''; }, 4000);
+}
+</script>
+</body>
+</html>
