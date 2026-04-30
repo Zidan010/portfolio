@@ -235,6 +235,17 @@
       ],
       "icon": "fa-book",
       "source_link": "https://github.com/Zidan010/voice-enabled-ai-agent"
+    },
+    {
+      "name": "Life Insurance Support Assistant",
+      "description": "A lightweight agentic life-insurance assistant built using LangChain + Groq, designed to answer domain-specific questions about policy types, benefits, eligibility, and claims, using structured category-based reasoning.",
+      "tech_tags": [
+        "Python",
+        "Langchain",
+        "GROQ API"
+      ],
+      "icon": "fa-brain",
+      "source_link": "https://github.com/Zidan010/insurance-support-assistant"
     }
   ],
   "summary": "AI/ML Engineer with 2+ years of production experience building and deploying LLM-powered applications. Specialized in fine-tuning LLMs with LoRA/QLoRA, designing advanced RAG & agentic systems, and delivering low-latency inference APIs using LangChain, Groq, FastAPI, Docker, and MLflow. Hands-on expertise in computer vision, 3D reconstruction and multilingual retrieval pipelines (FAISS, Milvus), along with voice enabled systems. Proven track record of shipping scalable AI solutions end-to-end, from custom model training and pretrained model integration to production deployment and monitoring.",
