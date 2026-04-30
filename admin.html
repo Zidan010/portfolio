@@ -172,6 +172,7 @@
         </div>
         <div class="topbar-actions">
             <span id="deploy-status"></span>
+            <button class="btn-warn" onclick="runDebug()" id="debug-btn" title="Check env vars & GitHub connection">🔍 Debug</button>
             <button class="btn-success" onclick="saveAll()" id="save-btn">💾 Save & Deploy</button>
             <button class="btn-secondary" onclick="doLogout()">Logout</button>
         </div>
@@ -335,6 +336,17 @@
 </div>
 
 <div id="toast"></div>
+
+<!-- Debug Modal -->
+<div id="debug-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:10000;align-items:center;justify-content:center;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;width:620px;max-width:95vw;max-height:85vh;overflow-y:auto;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <h2 style="font-size:16px;">🔍 Environment & GitHub Debug</h2>
+            <button class="btn-secondary" onclick="document.getElementById('debug-modal').style.display='none'">✕ Close</button>
+        </div>
+        <div id="debug-output" style="font-size:12px;color:var(--text2);">Running checks…</div>
+    </div>
+</div>
 
 <script>
 // ════════════════════════════════════════════════════════════════════
@@ -857,6 +869,76 @@ function showToast(msg, type = 'info') {
     t.className = `show ${type}`;
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { t.className = ''; }, 4000);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// DEBUG
+// ════════════════════════════════════════════════════════════════════
+async function runDebug() {
+    const modal = document.getElementById('debug-modal');
+    const output = document.getElementById('debug-output');
+    modal.style.display = 'flex';
+    output.innerHTML = '<p style="color:var(--text2)">⏳ Running checks…</p>';
+
+    try {
+        const res = await fetch('/.netlify/functions/admin-debug', {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const data = await res.json();
+        if (!res.ok) { output.innerHTML = `<p style="color:var(--danger)">❌ ${data.error}</p>`; return; }
+
+        const { envChecks, githubTest } = data;
+        const row = (label, ok, detail) =>
+            `<tr>
+                <td style="padding:6px 10px;font-weight:600;color:var(--text)">${label}</td>
+                <td style="padding:6px 10px">${ok ? '✅' : '❌'}</td>
+                <td style="padding:6px 10px;color:var(--text2)">${detail}</td>
+            </tr>`;
+
+        let html = `<table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+            <thead><tr style="border-bottom:1px solid var(--border)">
+                <th style="text-align:left;padding:6px 10px;color:var(--text2);font-size:11px">Variable</th>
+                <th style="text-align:left;padding:6px 10px;color:var(--text2);font-size:11px">Set?</th>
+                <th style="text-align:left;padding:6px 10px;color:var(--text2);font-size:11px">Details</th>
+            </tr></thead><tbody>`;
+
+        for (const [k, v] of Object.entries(envChecks)) {
+            let detail = '';
+            if (v.value !== undefined) detail = v.value;
+            else if (v.preview !== undefined) detail = v.preview;
+            else if (v.length !== undefined) detail = `length: ${v.length}`;
+            html += row(k, v.present !== false, detail);
+        }
+        html += '</tbody></table>';
+
+        // GitHub test result
+        html += `<h3 style="font-size:13px;margin-bottom:10px;">GitHub API Test</h3>`;
+        if (githubTest.skipped) {
+            html += `<p style="color:var(--warn)">⚠️ Skipped — ${githubTest.skipped}</p>`;
+        } else if (githubTest.repoFound) {
+            html += `<p style="color:var(--success)">✅ Connected to <strong>${githubTest.repoName}</strong></p>`;
+            if (githubTest.permissions) {
+                const perms = Object.entries(githubTest.permissions).map(([k,v]) => `${k}: ${v}`).join(' · ');
+                html += `<p style="color:var(--text2);font-size:11px;margin-top:4px;">Permissions: ${perms}</p>`;
+            }
+        } else {
+            html += `<p style="color:var(--danger)">❌ GitHub API error (HTTP ${githubTest.status}): ${githubTest.error}</p>`;
+            html += `<div style="margin-top:12px;padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);">
+                <strong style="color:var(--text)">Common fixes:</strong><br><br>
+                ${githubTest.status === 401 ? '• <strong>401 Unauthorized</strong> — Your GITHUB_TOKEN is invalid or expired. Generate a new one at GitHub → Settings → Developer Settings → Personal Access Tokens.' : ''}
+                ${githubTest.status === 404 ? '• <strong>404 Not Found</strong> — GITHUB_REPO value is wrong. It should be exactly <code>owner/reponame</code> e.g. <code>zidan010/portfolio</code> (no https://, no .git).' : ''}
+                ${githubTest.status === 403 ? '• <strong>403 Forbidden</strong> — Token exists but lacks <code>repo</code> scope. Regenerate the token with the <code>repo</code> checkbox enabled.' : ''}
+            </div>`;
+        }
+
+        html += `<p style="color:var(--text2);font-size:11px;margin-top:16px;">Node ${envChecks.NODE_VERSION?.value || ''} · ${envChecks.NODE_ENV?.value || ''}</p>`;
+        html += `<p style="color:var(--text2);font-size:11px;margin-top:8px;">⚠️ Delete <code>netlify/functions/admin-debug.js</code> after debugging.</p>`;
+
+        output.innerHTML = html;
+    } catch (err) {
+        output.innerHTML = `<p style="color:var(--danger)">❌ Could not reach debug function: ${err.message}</p>`;
+    }
 }
 </script>
 </body>
