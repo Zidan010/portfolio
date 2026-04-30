@@ -15,11 +15,43 @@
     }
   ],
   "skills": {
-    "Programming Languages": ["Python", "R"],
-    "Frameworks & Libraries": ["TensorFlow", "Keras", "LangChain", "Groq", "PyTorch", "Fast API", "Pandas", "Faiss", "Llama cpp", "ONNX", "Ollama", "Hugging Face", "Streamlit"],
-    "Tools & Platforms": ["Docker", "MLFlow", "Kubernetes", "GitHub", "VS Code", "R Studio", "Colab", "LoRA"],
-    "Databases": ["SQL", "MongoDB"],
-    "Operating Systems": ["Windows", "Linux"]
+    "Programming Languages": [
+      "Python",
+      "R"
+    ],
+    "Frameworks & Libraries": [
+      "TensorFlow",
+      "Keras",
+      "LangChain",
+      "Groq",
+      "PyTorch",
+      "Fast API",
+      "Pandas",
+      "Faiss",
+      "Llama cpp",
+      "ONNX",
+      "Ollama",
+      "Hugging Face",
+      "Streamlit"
+    ],
+    "Tools & Platforms": [
+      "Docker",
+      "MLFlow",
+      "Kubernetes",
+      "GitHub",
+      "VS Code",
+      "R Studio",
+      "Colab",
+      "LoRA"
+    ],
+    "Databases": [
+      "SQL",
+      "MongoDB"
+    ],
+    "Operating Systems": [
+      "Windows",
+      "Linux"
+    ]
   },
   "experience": [
     {
@@ -65,7 +97,7 @@
       "duration": "October 2023 - December 2023",
       "works_done": [
         "Conducted research on personalized recommendation systems, chatbots, and text generation using LLMs and computer vision.",
-        "Scraped and preprocessed data, including tokenization and vectorization, and fine-tuned LLMs for specific applications."
+        "Scraped and preprocessed data, including tokenization and vectorization, and fine-tuned SLMs for specific applications."
       ]
     }
   ],
@@ -116,13 +148,13 @@
   "summary": "AI/ML Engineer with 2+ years of production experience building and deploying LLM-powered applications. Specialized in fine-tuning LLMs with LoRA/QLoRA, designing advanced RAG & agentic systems, and delivering low-latency inference APIs using LangChain, Groq, FastAPI, Docker, and MLflow. Hands-on expertise in computer vision, 3D reconstruction and multilingual retrieval pipelines (FAISS, Milvus), along with voice enabled systems. Proven track record of shipping scalable AI solutions end-to-end, from custom model training and pretrained model integration to production deployment and monitoring.",
   "constants": {
     "marital_relationship_Status": "Not Married",
+    "availability": "Available for remote/online/work from home positions only. Available for Machine Learning/AI related positions",
     "future_career_Goals": [
       "Lead AI-driven projects in NLP and computer vision to solve real-world problems in tech giant companies.",
       "Contribute to open-source AI frameworks and tools",
       "Pursue advanced certifications in deep learning and cloud-based AI deployment",
       "Build own AI products."
     ],
-    "availability": "Available for remote/online/work from home positions only. Available for Machine Learning/AI related positions",
     "lookingFor": [
       "Opportunities to work on innovative AI projects, particularly in NLP, LLMs, and computer vision",
       "Collaborative environments with a focus on cutting-edge technology and continuous learning",
