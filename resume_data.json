@@ -92,9 +92,11 @@
       "company_link": "https://www.syntaxbd.com/",
       "duration": "January 2024 – Present",
       "works_done": [
-        "Developed and optimized NLP models and LLMs, enhancing data processing efficiency by 40%.",
-        "Designed scalable data pipelines, reducing resource consumption by 70%.",
-        "Deployed RESTful APIs using FastAPI and Docker, improving traffic handling by 50%."
+        "Designed and shipped production RAG and agentic LLM systems using LangChain, FAISS, Milvus, and custom retrieval pipelines for vector search, personalized search and custom chatbots. reduced retrieval latency by 40% through pipeline optimization and index tuning.",
+        "Fine-tuned and quantized LLMs with LoRA/QLoRA, built dynamic model loading and inference optimization workflows, achieved 60% reduction in model memory footprint enabling deployment on resource-constrained and edge-compatible environments.",
+        "Developed computer vision pipelines including object detection, segmentation, ocr for document data extraction  and 3D reconstruction projects.",
+        "Trained custom deep learning models from scratch and integrated pretrained models.",
+        "Built and deployed scalable FastAPI inference services with Docker, MLflow tracking, request validation, rate-limiting, and monitoring."
       ]
     },
     {
@@ -103,9 +105,10 @@
       "company_link": "http://gradmate.ai",
       "duration": "April 2025 – February 2026",
       "works_done": [
-        "Designed AI-driven educational tools and AI Agents using LangChain and LLMs via Groq.",
-        "Built scalable backend APIs with FastAPI, reducing latency by 30%.",
-        "Optimized AI models through prompt engineering, enhancing performance by 25%."
+        "Built high-performance agentic RAG systems and multi-step AI workflows using LangChain and Groq’s ultra-fast LLM inference.",
+        "Implemented real-time speech-to-text (STT) and text-to-speech (TTS) integrations into educational AI agents.",
+        "Optimized latency and cost for Groq/LangChain pipelines serving live user-facing features, cut average inference response time by 35% and reduced per-query API cost through prompt compression and model routing strategies.",
+        "Collaborated on modular AI architecture, data contracts, and retrieval quality standards with frontend and platform teams."
       ]
     },
     {
@@ -115,7 +118,7 @@
       "duration": "May 2025 – January 2026",
       "works_done": [
         "Fine-tuned LLMs for specific tasks.",
-        "Created APIs for deployment.",
+        "Created agents and APIs for deployment.",
         "Collaborated with cross-functional teams to achieve project goals."
       ]
     },
@@ -125,9 +128,8 @@
       "company_link": "https://www.syntaxbd.com/",
       "duration": "October 2023 – December 2023",
       "works_done": [
-        "Conducted research on recommendation systems and chatbots, improving text generation accuracy by 20%.",
-        "Streamlined data collection processes, increasing data availability by 35%.",
-        "Fine-tuned SLMs for specific applications, achieving a 15% improvement in performance."
+        "Conducted research on personalized recommendation systems, chatbots, and text generation using LLMs and computer vision.",
+        "Scraped and preprocessed data, including tokenization and vectorization, and fine-tuned LLMs for specific applications."
       ]
     }
   ],
