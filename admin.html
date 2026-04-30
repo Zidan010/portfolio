@@ -183,6 +183,8 @@
         <aside class="sidebar">
             <div class="sidebar-label">Resume Sections</div>
             <div class="nav-item active" onclick="showSection('overview')" data-section="overview"><span class="icon">📊</span> Overview</div>
+            <div class="nav-item" onclick="showSection('hero')" data-section="hero"><span class="icon">🏠</span> Hero</div>
+            <div class="nav-item" onclick="showSection('about')" data-section="about"><span class="icon">🙋</span> About Me</div>
             <div class="nav-item" onclick="showSection('personal')" data-section="personal"><span class="icon">👤</span> Personal Info</div>
             <div class="nav-item" onclick="showSection('summary')" data-section="summary"><span class="icon">📝</span> Summary</div>
             <div class="nav-item" onclick="showSection('education')" data-section="education"><span class="icon">🎓</span> Education</div>
@@ -219,9 +221,35 @@
                 </div>
             </div>
 
+            <!-- ── Hero ── -->
+            <div class="section-page" id="section-hero">
+                <div class="page-header"><h2>🏠 Hero Section</h2><p>Name, title, and resume download link shown at the top of the page</p></div>
+                <div class="card">
+                    <div class="row">
+                        <div class="field"><label>Display Name</label><input id="h-name" type="text" /></div>
+                        <div class="field"><label>Title / Role</label><input id="h-title" type="text" /></div>
+                    </div>
+                    <div class="field"><label>Resume Download Link (Google Drive / direct URL)</label><input id="h-resume-link" type="url" /></div>
+                </div>
+            </div>
+
+            <!-- ── About ── -->
+            <div class="section-page" id="section-about">
+                <div class="page-header"><h2>🙋 About Me</h2><p>The about section text and highlight stats</p></div>
+                <div class="card">
+                    <div class="field">
+                        <label>About Text</label>
+                        <textarea id="a-text" rows="5"></textarea>
+                    </div>
+                    <label style="margin-top:8px;display:block">Stats (value + label pairs)</label>
+                    <div id="stats-list" style="margin-top:8px;"></div>
+                    <button class="btn-secondary" style="margin-top:8px" onclick="addStat()">＋ Add Stat</button>
+                </div>
+            </div>
+
             <!-- ── Personal Info ── -->
             <div class="section-page" id="section-personal">
-                <div class="page-header"><h2>👤 Personal Info</h2><p>Basic contact and profile information</p></div>
+                <div class="page-header"><h2>👤 Personal Info</h2><p>Contact details and social links — used in the Contact section and navbar</p></div>
                 <div class="card">
                     <div class="row">
                         <div class="field"><label>Full Name</label><input id="p-name" type="text" /></div>
@@ -234,6 +262,10 @@
                     <div class="row">
                         <div class="field"><label>GitHub URL</label><input id="p-github" type="url" /></div>
                         <div class="field"><label>LinkedIn URL</label><input id="p-linkedin" type="url" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="field"><label>Facebook URL</label><input id="p-facebook" type="url" /></div>
+                        <div class="field"><label>WhatsApp URL (https://wa.me/number)</label><input id="p-whatsapp" type="url" /></div>
                     </div>
                 </div>
             </div>
@@ -430,6 +462,8 @@ function showSection(name) {
 // ════════════════════════════════════════════════════════════════════
 function renderAll() {
     if (!resumeData) return;
+    renderHero();
+    renderAbout();
     renderPersonal();
     renderSummary();
     renderEducation();
@@ -440,15 +474,56 @@ function renderAll() {
     renderConstants();
 }
 
+// ── Hero ──
+function renderHero() {
+    const h = resumeData.hero || {};
+    document.getElementById('h-name').value         = h.name        || '';
+    document.getElementById('h-title').value        = h.title       || '';
+    document.getElementById('h-resume-link').value  = h.resume_link || '';
+}
+
+// ── About ──
+function renderAbout() {
+    const a = resumeData.about || {};
+    document.getElementById('a-text').value = a.text || '';
+    renderStats();
+}
+function renderStats() {
+    const container = document.getElementById('stats-list');
+    if (!container) return;
+    const stats = (resumeData.about || {}).stats || [];
+    container.innerHTML = stats.map((s, i) => `
+        <div class="list-item" style="display:flex;gap:10px;align-items:center;padding:10px 14px;">
+            <input style="width:90px;flex-shrink:0" placeholder="Value" value="${esc(s.value||'')}" onchange="updateStat(${i},'value',this.value)" />
+            <input style="flex:1" placeholder="Label" value="${esc(s.label||'')}" onchange="updateStat(${i},'label',this.value)" />
+            <button class="remove-btn" onclick="removeStat(${i})">✕</button>
+        </div>`).join('');
+}
+function addStat() {
+    if (!resumeData.about) resumeData.about = { text: '', stats: [] };
+    if (!resumeData.about.stats) resumeData.about.stats = [];
+    resumeData.about.stats.push({ value: '', label: '' });
+    renderStats();
+}
+function removeStat(i) {
+    resumeData.about.stats.splice(i, 1);
+    renderStats();
+}
+function updateStat(i, field, val) {
+    resumeData.about.stats[i][field] = val;
+}
+
 // ── Personal ──
 function renderPersonal() {
     const p = resumeData.personal_info || {};
-    document.getElementById('p-name').value = p.name || '';
-    document.getElementById('p-email').value = p.email || '';
-    document.getElementById('p-phone').value = p.phone || '';
-    document.getElementById('p-address').value = p.address || '';
-    document.getElementById('p-github').value = p.github || '';
+    document.getElementById('p-name').value     = p.name     || '';
+    document.getElementById('p-email').value    = p.email    || '';
+    document.getElementById('p-phone').value    = p.phone    || '';
+    document.getElementById('p-address').value  = p.address  || '';
+    document.getElementById('p-github').value   = p.github   || '';
     document.getElementById('p-linkedin').value = p.linkedin || '';
+    document.getElementById('p-facebook').value = p.facebook || '';
+    document.getElementById('p-whatsapp').value = p.whatsapp || '';
 }
 
 // ── Summary ──
@@ -607,19 +682,47 @@ function renderResearch() {
 function makeResearchCard(r, i) {
     const d = document.createElement('div');
     d.className = 'list-item';
+    const tagsHtml = (r.tags || []).map((t, ti) =>
+        `<span class="tag">${esc(t)}<button onclick="removeResearchTag(${i},${ti})">×</button></span>`
+    ).join('');
     d.innerHTML = `
         <div class="list-item-header">
             <div class="list-item-title">${esc(r.research_name||'New Research')}</div>
             <button class="remove-btn" onclick="removeItem('research_work',${i})">✕</button>
         </div>
         <div class="field"><label>Research Name</label><input value="${esc(r.research_name||'')}" onchange="updateItem('research_work',${i},'research_name',this.value)" /></div>
+        <div class="row">
+            <div class="field"><label>Role / Category</label><input value="${esc(r.role||'')}" onchange="updateItem('research_work',${i},'role',this.value)" /></div>
+            <div class="field"><label>Status</label><input value="${esc(r.status||'')}" placeholder="e.g. Not Published, In Progress" onchange="updateItem('research_work',${i},'status',this.value)" /></div>
+        </div>
         <div class="field"><label>Description</label><textarea onchange="updateItem('research_work',${i},'description',this.value)">${esc(r.description||'')}</textarea></div>
+        <div class="field">
+            <label>Tags</label>
+            <div class="tags-container" id="rtags-${i}">${tagsHtml}</div>
+            <div class="tag-input-row">
+                <input type="text" placeholder="Add tag..." id="rtag-input-${i}" onkeydown="if(event.key==='Enter')addResearchTag(${i})" />
+                <button class="btn-secondary" onclick="addResearchTag(${i})">Add</button>
+            </div>
+        </div>
         <div class="field"><label>Source Link (optional)</label><input type="url" value="${esc(r.source_link||'')}" onchange="updateItem('research_work',${i},'source_link',this.value||null)" /></div>`;
     return d;
 }
+function addResearchTag(i) {
+    const input = document.getElementById(`rtag-input-${i}`);
+    const val = input.value.trim();
+    if (!val) return;
+    if (!resumeData.research_work[i].tags) resumeData.research_work[i].tags = [];
+    resumeData.research_work[i].tags.push(val);
+    input.value = '';
+    renderResearch();
+}
+function removeResearchTag(i, ti) {
+    resumeData.research_work[i].tags.splice(ti, 1);
+    renderResearch();
+}
 function addResearch() {
     if (!resumeData.research_work) resumeData.research_work = [];
-    resumeData.research_work.push({ research_name: '', description: '', source_link: null });
+    resumeData.research_work.push({ research_name: '', role: '', status: '', description: '', tags: [], source_link: null });
     renderResearch();
 }
 
@@ -632,19 +735,46 @@ function renderProjects() {
 function makeProjectCard(p, i) {
     const d = document.createElement('div');
     d.className = 'list-item';
+    const techHtml = (p.tech_tags || []).map((t, ti) =>
+        `<span class="tag">${esc(t)}<button onclick="removeTechTag(${i},${ti})">×</button></span>`
+    ).join('');
     d.innerHTML = `
         <div class="list-item-header">
             <div class="list-item-title">${esc(p.name||'New Project')}</div>
             <button class="remove-btn" onclick="removeItem('projects',${i})">✕</button>
         </div>
-        <div class="field"><label>Project Name</label><input value="${esc(p.name||'')}" onchange="updateItem('projects',${i},'name',this.value)" /></div>
+        <div class="row">
+            <div class="field"><label>Project Name</label><input value="${esc(p.name||'')}" onchange="updateItem('projects',${i},'name',this.value)" /></div>
+            <div class="field"><label>Icon (FontAwesome class, e.g. fa-brain)</label><input value="${esc(p.icon||'fa-code')}" placeholder="fa-brain" onchange="updateItem('projects',${i},'icon',this.value)" /></div>
+        </div>
         <div class="field"><label>Description</label><textarea onchange="updateItem('projects',${i},'description',this.value)">${esc(p.description||'')}</textarea></div>
+        <div class="field">
+            <label>Tech Tags</label>
+            <div class="tags-container" id="tech-tags-${i}">${techHtml}</div>
+            <div class="tag-input-row">
+                <input type="text" placeholder="Add tech tag..." id="tech-input-${i}" onkeydown="if(event.key==='Enter')addTechTag(${i})" />
+                <button class="btn-secondary" onclick="addTechTag(${i})">Add</button>
+            </div>
+        </div>
         <div class="field"><label>Source Link (GitHub URL)</label><input type="url" value="${esc(p.source_link||'')}" onchange="updateItem('projects',${i},'source_link',this.value||null)" /></div>`;
     return d;
 }
+function addTechTag(i) {
+    const input = document.getElementById(`tech-input-${i}`);
+    const val = input.value.trim();
+    if (!val) return;
+    if (!resumeData.projects[i].tech_tags) resumeData.projects[i].tech_tags = [];
+    resumeData.projects[i].tech_tags.push(val);
+    input.value = '';
+    renderProjects();
+}
+function removeTechTag(i, ti) {
+    resumeData.projects[i].tech_tags.splice(ti, 1);
+    renderProjects();
+}
 function addProject() {
     if (!resumeData.projects) resumeData.projects = [];
-    resumeData.projects.push({ name: '', description: '', source_link: null });
+    resumeData.projects.push({ name: '', description: '', tech_tags: [], icon: 'fa-code', source_link: null });
     renderProjects();
 }
 
@@ -690,14 +820,27 @@ function renderOverview() {
 // COLLECT & SAVE
 // ════════════════════════════════════════════════════════════════════
 function collectData() {
+    // Hero
+    resumeData.hero = {
+        name:        document.getElementById('h-name').value,
+        title:       document.getElementById('h-title').value,
+        resume_link: document.getElementById('h-resume-link').value,
+    };
+    // About
+    if (!resumeData.about) resumeData.about = {};
+    resumeData.about.text = document.getElementById('a-text').value;
+    // (stats are updated in-place via updateStat)
+
     // Personal
     resumeData.personal_info = {
-        name: document.getElementById('p-name').value,
-        email: document.getElementById('p-email').value,
-        phone: document.getElementById('p-phone').value,
-        address: document.getElementById('p-address').value,
-        github: document.getElementById('p-github').value,
-        linkedin: document.getElementById('p-linkedin').value,
+        name:      document.getElementById('p-name').value,
+        email:     document.getElementById('p-email').value,
+        phone:     document.getElementById('p-phone').value,
+        address:   document.getElementById('p-address').value,
+        github:    document.getElementById('p-github').value,
+        linkedin:  document.getElementById('p-linkedin').value,
+        facebook:  document.getElementById('p-facebook').value,
+        whatsapp:  document.getElementById('p-whatsapp').value,
     };
     // Summary
     resumeData.summary = document.getElementById('s-summary').value;
