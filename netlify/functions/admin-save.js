@@ -1,10 +1,6 @@
 // netlify/functions/admin-save.js
-// Commits updated resume_data.json (and optionally a new PDF) to GitHub via the API.
-// This triggers an automatic Netlify redeploy so the live site updates.
-
 import crypto from 'crypto';
 
-// ─── JWT verification (copied inline to avoid shared module issues) ─────────
 function verifyJWT(token, secret) {
     try {
         const [header, body, sig] = token.split('.');
@@ -17,64 +13,94 @@ function verifyJWT(token, secret) {
         const payload = JSON.parse(Buffer.from(body, 'base64').toString());
         if (payload.exp < Date.now() / 1000) return null;
         return payload;
-    } catch {
-        return null;
-    }
+    } catch { return null; }
 }
 
-// ─── GitHub helpers ─────────────────────────────────────────────────────────
-async function ghGet(path, token, repo) {
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28'
+async function ghGet(filePath, token, repo) {
+    const branch = process.env.GITHUB_BRANCH || 'main';
+    const res = await fetch(
+        `https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
         }
-    });
+    );
     if (!res.ok) return null;
     return res.json();
 }
 
-async function ghPut(path, content, message, sha, token, repo) {
+async function ghPut(filePath, content, message, existingSha, token, repo) {
+    const branch = process.env.GITHUB_BRANCH || 'main';
+
+    // Build body — only include sha when updating an existing file
     const body = {
         message,
         content: Buffer.from(content).toString('base64'),
-        branch: process.env.GITHUB_BRANCH || 'main'
+        branch
     };
-    if (sha) body.sha = sha;
+    if (existingSha) body.sha = existingSha;
 
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-        method: 'PUT',
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json',
-            'Content-Type': 'application/json',
-            'X-GitHub-Api-Version': '2022-11-28'
-        },
-        body: JSON.stringify(body)
-    });
+    const res = await fetch(
+        `https://api.github.com/repos/${repo}/contents/${filePath}`,
+        {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github+json',
+                'Content-Type': 'application/json',
+                'X-GitHub-Api-Version': '2022-11-28'
+            },
+            body: JSON.stringify(body)
+        }
+    );
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'GitHub write failed');
+
+    // 422 / 409 means the file already exists but we didn't have its SHA.
+    // Fetch the current SHA and retry once.
+    if (!res.ok && (res.status === 422 || res.status === 409)) {
+        const existing = await ghGet(filePath, token, repo);
+        if (existing?.sha) {
+            body.sha = existing.sha;
+            const retry = await fetch(
+                `https://api.github.com/repos/${repo}/contents/${filePath}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/vnd.github+json',
+                        'Content-Type': 'application/json',
+                        'X-GitHub-Api-Version': '2022-11-28'
+                    },
+                    body: JSON.stringify(body)
+                }
+            );
+            const retryData = await retry.json();
+            if (!retry.ok) throw new Error(retryData.message || 'GitHub write failed on retry');
+            return retryData;
+        }
+    }
+
+    if (!res.ok) throw new Error(data.message || `GitHub write failed (${res.status})`);
     return data;
 }
 
-// ─── Handler ────────────────────────────────────────────────────────────────
 export async function handler(event) {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
     }
 
-    // Auth check
     const authHeader = event.headers['authorization'] || '';
     const token = authHeader.replace('Bearer ', '');
-    const secret = process.env.JWT_SECRET;
-    if (!secret || !verifyJWT(token, secret)) {
+    if (!process.env.JWT_SECRET || !verifyJWT(token, process.env.JWT_SECRET)) {
         return { statusCode: 401, body: JSON.stringify({ error: 'Unauthorized' }) };
     }
 
     const ghToken = process.env.GITHUB_TOKEN;
-    const repo = process.env.GITHUB_REPO; // e.g. "zidan010/portfolio"
+    const repo = process.env.GITHUB_REPO;
     if (!ghToken || !repo) {
         return { statusCode: 500, body: JSON.stringify({ error: 'GitHub env vars not set' }) };
     }
@@ -82,7 +108,7 @@ export async function handler(event) {
     try {
         const payload = JSON.parse(event.body);
 
-        // 1. Save resume_data.json
+        // 1. Commit resume_data.json
         if (payload.resumeData) {
             const jsonContent = JSON.stringify(payload.resumeData, null, 2);
             const existing = await ghGet('resume_data.json', ghToken, repo);
@@ -96,28 +122,20 @@ export async function handler(event) {
             );
         }
 
-        // 2. Save new PDF if provided (base64 encoded)
+        // 2. Commit new PDF if provided
         if (payload.pdfBase64 && payload.pdfFilename) {
             const existingPdf = await ghGet(payload.pdfFilename, ghToken, repo);
-            const res = await fetch(`https://api.github.com/repos/${repo}/contents/${payload.pdfFilename}`, {
-                method: 'PUT',
-                headers: {
-                    Authorization: `Bearer ${ghToken}`,
-                    Accept: 'application/vnd.github+json',
-                    'Content-Type': 'application/json',
-                    'X-GitHub-Api-Version': '2022-11-28'
-                },
-                body: JSON.stringify({
-                    message: `chore: update resume PDF (${payload.pdfFilename})`,
-                    content: payload.pdfBase64,
-                    sha: existingPdf?.sha || undefined,
-                    branch: process.env.GITHUB_BRANCH || 'main'
-                })
-            });
-            if (!res.ok) {
-                const err = await res.json();
-                console.error('PDF upload error:', err);
-                // Non-fatal — JSON save succeeded
+            try {
+                await ghPut(
+                    payload.pdfFilename,
+                    Buffer.from(payload.pdfBase64, 'base64').toString('binary'),
+                    `chore: update resume PDF (${payload.pdfFilename})`,
+                    existingPdf?.sha || null,
+                    ghToken,
+                    repo
+                );
+            } catch (pdfErr) {
+                console.error('PDF upload error (non-fatal):', pdfErr.message);
             }
         }
 
