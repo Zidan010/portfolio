@@ -17,9 +17,18 @@
   "about": {
     "text": "A passionate Machine Learning Engineer based in Dhaka, Bangladesh, with about 2 years of experience in developing and deploying custom AI models, APIs, and scalable systems. My expertise spans across NLP, LLMs, and computer vision, with a strong focus on delivering impactful, data-driven solutions.",
     "stats": [
-      { "value": "70%", "label": "Resource Usage Reduction" },
-      { "value": "40%", "label": "Processing Efficiency Improvement" },
-      { "value": "2+", "label": "Years Experience" }
+      {
+        "value": "70%",
+        "label": "Resource Usage Reduction"
+      },
+      {
+        "value": "40%",
+        "label": "Processing Efficiency Improvement"
+      },
+      {
+        "value": "2+",
+        "label": "Years Experience"
+      }
     ]
   },
   "education": [
@@ -30,12 +39,51 @@
     }
   ],
   "skills": {
-    "Programming Languages": ["Python", "R"],
-    "AI/ML Frameworks": ["TensorFlow", "PyTorch", "Keras", "LangChain", "Hugging Face", "Groq", "Fast API", "Pandas", "Faiss", "Llama cpp", "ONNX", "Ollama", "Streamlit"],
-    "Tools & Platforms": ["Docker", "Kubernetes", "MLFlow", "GitHub", "VS Code", "R Studio", "Colab", "LoRA", "Milvus"],
-    "Specializations": ["NLP", "Computer Vision", "LLMs", "RAG", "API Development"],
-    "Databases": ["SQL", "MongoDB"],
-    "Operating Systems": ["Windows", "Linux"]
+    "Programming Languages": [
+      "Python",
+      "R"
+    ],
+    "AI/ML Frameworks": [
+      "TensorFlow",
+      "PyTorch",
+      "Keras",
+      "LangChain",
+      "Hugging Face",
+      "Groq",
+      "Fast API",
+      "Pandas",
+      "Faiss",
+      "Llama cpp",
+      "ONNX",
+      "Ollama",
+      "Streamlit"
+    ],
+    "Tools & Platforms": [
+      "Docker",
+      "Kubernetes",
+      "MLFlow",
+      "GitHub",
+      "VS Code",
+      "R Studio",
+      "Colab",
+      "LoRA",
+      "Milvus"
+    ],
+    "Specializations": [
+      "NLP",
+      "Computer Vision",
+      "LLMs",
+      "RAG",
+      "API Development"
+    ],
+    "Databases": [
+      "SQL",
+      "MongoDB"
+    ],
+    "Operating Systems": [
+      "Windows",
+      "Linux"
+    ]
   },
   "experience": [
     {
@@ -79,7 +127,7 @@
       "works_done": [
         "Conducted research on recommendation systems and chatbots, improving text generation accuracy by 20%.",
         "Streamlined data collection processes, increasing data availability by 35%.",
-        "Fine-tuned LLMs for specific applications, achieving a 15% improvement in performance."
+        "Fine-tuned SLMs for specific applications, achieving a 15% improvement in performance."
       ]
     }
   ],
@@ -89,7 +137,11 @@
       "role": "Bachelor Level Thesis",
       "status": "Not Published",
       "description": "A comprehensive study examining the effectiveness of various machine learning algorithms in predicting mental health conditions. This thesis explores different classification techniques and their performance metrics in mental health prediction tasks.",
-      "tags": ["Machine Learning", "Mental Health Prediction", "Data Analysis"],
+      "tags": [
+        "Machine Learning",
+        "Mental Health Prediction",
+        "Data Analysis"
+      ],
       "source_link": null
     },
     {
@@ -97,7 +149,12 @@
       "role": "Current Research - Nasir Syntax Solution Limited (NSSL)",
       "status": "Manuscript in Preparation",
       "description": "An ongoing research project focused on developing efficient depth estimation models optimized for edge devices. This work aims to achieve real-time depth estimation while minimizing computational overhead and memory requirements on resource-constrained devices.",
-      "tags": ["Depth Estimation", "Computer Vision", "Edge Computing", "Model Optimization"],
+      "tags": [
+        "Depth Estimation",
+        "Computer Vision",
+        "Edge Computing",
+        "Model Optimization"
+      ],
       "source_link": null
     }
   ],
@@ -105,42 +162,64 @@
     {
       "name": "Multilingual RAG System",
       "description": "A multilingual RAG system for English and Bengali that retrieves information from PDFs and generates answers using LangChain, FAISS, and an LLM.",
-      "tech_tags": ["Python", "LangChain", "FastAPI"],
+      "tech_tags": [
+        "Python",
+        "LangChain",
+        "FastAPI"
+      ],
       "icon": "fa-book",
       "source_link": "https://github.com/zidan010/multilingual-rag-bangla"
     },
     {
       "name": "Face Mask Detection",
       "description": "A system to detect facial masks using a cascade classifier with high accuracy.",
-      "tech_tags": ["Python", "OpenCV"],
+      "tech_tags": [
+        "Python",
+        "OpenCV"
+      ],
       "icon": "fa-mask",
       "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Assignment_1(Mask_Detection)"
     },
     {
       "name": "Drowsiness Detection",
       "description": "A real-time system using ML and image processing to detect driver drowsiness.",
-      "tech_tags": ["Python", "Computer Vision"],
+      "tech_tags": [
+        "Python",
+        "Computer Vision"
+      ],
       "icon": "fa-eye",
       "source_link": "https://github.com/Zidan010/Computer-Vision-and-Pattern-Recognition/tree/main/FINAL/Project"
     },
     {
       "name": "Data Analysis & Prediction",
       "description": "Sleep health lifestyle dataset analysis with ML algorithms to predict health levels as part of data science project.",
-      "tech_tags": ["Python", "Data Analysis", "Pandas"],
+      "tech_tags": [
+        "Python",
+        "Data Analysis",
+        "Pandas"
+      ],
       "icon": "fa-chart-line",
       "source_link": "https://github.com/Zidan010/Data-Science/tree/main/Project-2"
     },
     {
       "name": "Mental Health Prediction",
       "description": "Comparison between different ML algorithms for predicting mental health conditions using online data.",
-      "tech_tags": ["Python", "Machine Learning", "Data Science"],
+      "tech_tags": [
+        "Python",
+        "Machine Learning",
+        "Data Science"
+      ],
       "icon": "fa-brain",
       "source_link": "https://github.com/Zidan010/Machine_Learning"
     },
     {
       "name": "Sentiment Analysis Chatbot",
       "description": "A simple sentiment analysis chatbot that analyzes the user's mood based on their input and provides contextual responses.",
-      "tech_tags": ["Python", "Machine Learning", "NLP"],
+      "tech_tags": [
+        "Python",
+        "Machine Learning",
+        "NLP"
+      ],
       "icon": "fa-book-open",
       "source_link": "https://github.com/Zidan010/Sentiment_Analysis_Chatbot_using_NLTK_TextBlob"
     }
