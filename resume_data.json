@@ -158,6 +158,19 @@
         "Model Optimization"
       ],
       "source_link": null
+    },
+    {
+      "research_name": "Predicting Adverse Event Severity and Symptom Progression Following COVID-19 Vaccination Using Explainable Machine Learning",
+      "role": "Current Research",
+      "status": "Manuscript in Preparation",
+      "description": "Predicting Adverse Event Severity and Symptom Progression Following COVID-19 Vaccination Using Explainable Machine Learning — Dual-model XAI framework (XGBoost + SHAP, Neural Network + LIME) applied to the complete VAERS COVID-19 dataset (2019–2026, 1M+ records); achieves 81% Fatal Recall with full clinical interpretability pipeline.",
+      "tags": [
+        "XAI",
+        "Clinical AI",
+        "EDA",
+        "Decision Tree"
+      ],
+      "source_link": null
     }
   ],
   "projects": [
